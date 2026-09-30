@@ -1,6 +1,6 @@
 // ============================================================
-// DETAILED PIXEL CHARACTER SYSTEM
-// Inspired by classic 16-bit / 32-bit RPG pixel characters.
+// DETAILED PIXEL CHARACTER SYSTEM - GOTHIC SCIENCE STYLE
+// Inspired by dark pixel art with laboratory aesthetic
 // ============================================================
 
 function drawPixelCharacter(canvas, type) {
@@ -19,234 +19,261 @@ function drawPixelCharacter(canvas, type) {
     px(Math.round(x), Math.round(y), Math.round(w), Math.round(h), color);
   }
 
-  // -------- FACE --------
-  function detailedFace(skin, shadow, eyeColor = "#08050a") {
-    // neck
-    p(38, 42, 18, 12, skin);
-    p(41, 48, 12, 7, shadow);
-
-    // ears
-    p(21, 20, 6, 17, skin);
-    p(59, 20, 6, 17, skin);
-
-    // face outline
-    p(27, 8, 31, 3, "#241018");
-    p(23, 12, 39, 29, "#241018");
-
-    // face
-    p(27, 11, 32, 30, skin);
-    p(24, 17, 5, 15, skin);
-    p(57, 17, 5, 15, skin);
-
-    // face shading
-    p(27, 30, 5, 9, shadow);
-    p(54, 29, 5, 9, shadow);
-    p(31, 37, 22, 4, shadow);
-
-    // eyebrows
-    p(30, 20, 9, 2, "#2a1219");
-    p(48, 20, 9, 2, "#2a1219");
-
-    // eyes
-    p(29, 22, 11, 7, "#f6e6e8");
-    p(47, 22, 11, 7, "#f6e6e8");
-
-    p(34, 23, 5, 5, eyeColor);
-    p(48, 23, 5, 5, eyeColor);
-
-    // eye highlights
-    p(35, 23, 2, 2, "#ffffff");
-    p(49, 23, 2, 2, "#ffffff");
-
-    // nose
-    p(41, 28, 4, 3, shadow);
-    p(44, 30, 4, 2, skin);
-
-    // mouth
-    p(38, 35, 12, 2, "#7c2939");
-    p(41, 37, 7, 2, "#d35a70");
-  }
-
-  // -------- CURLY HAIR --------
-  function curlyHair(base = "#21131b", light = "#5b3540", shadow = "#120b11") {
-    // outer silhouette
-    p(19, 8, 8, 22, shadow);
-    p(22, 4, 12, 25, shadow);
-    p(29, 1, 27, 13, shadow);
-    p(43, 3, 19, 12, shadow);
-    p(55, 8, 11, 23, shadow);
-    p(60, 17, 8, 18, shadow);
-
-    // main curls
-    p(23, 8, 12, 15, base);
-    p(31, 4, 13, 14, base);
-    p(41, 5, 15, 12, base);
-    p(51, 8, 12, 16, base);
-    p(21, 17, 12, 12, base);
-    p(54, 18, 12, 12, base);
-
-    // individual pixel curls
-    p(27, 6, 7, 5, light);
-    p(36, 3, 8, 4, light);
-    p(46, 6, 8, 4, light);
-    p(55, 11, 6, 5, light);
-    p(24, 15, 6, 6, light);
-
-    // dark gaps between curls
-    p(32, 14, 7, 3, shadow);
-    p(43, 11, 7, 3, shadow);
-    p(53, 17, 5, 3, shadow);
-  }
-
-  // -------- SCIENTIST --------
+  // -------- SCIENTIST (Dark Academia Style) --------
   function drawScientist() {
-    // hair
-    p(19, 7, 45, 13, "#08070b");
-    p(22, 4, 35, 8, "#08070b");
-    p(19, 13, 10, 19, "#08070b");
-    p(56, 11, 10, 20, "#08070b");
+    // Hair - dark, slicked back
+    p(25, 2, 60, 8, "#0a0a0a");
+    p(20, 8, 70, 12, "#0a0a0a");
+    p(28, 18, 54, 6, "#1a1520");
+    p(32, 22, 46, 4, "#2a2228");
 
-    // hair highlights
-    p(27, 7, 12, 2, "#21141e");
-    p(43, 5, 10, 2, "#21141e");
+    // Face
+    p(35, 24, 40, 32, "#c9906f");
+    
+    // Eyes
+    p(42, 32, 7, 5, "#2a2a2a");
+    p(61, 32, 7, 5, "#2a2a2a");
+    p(44, 34, 3, 2, "#000");
+    p(63, 34, 3, 2, "#000");
+    p(45, 33, 1, 1, "#fff");
+    p(64, 33, 1, 1, "#fff");
 
-    // hair falling over forehead
-    p(28, 13, 9, 7, "#08070b");
-    p(47, 12, 12, 7, "#08070b");
+    // Nose
+    p(51, 40, 4, 3, "#8a6b54");
 
-    // neck
-    p(38, 42, 18, 14, "#75472f");
+    // Mouth
+    p(42, 48, 18, 2, "#8a5a6a");
+    p(46, 50, 10, 2, "#c97a8a");
 
-    // face
-    detailedFace("#75472f", "#5a3028", "#020205");
+    // Neck
+    p(40, 56, 30, 8, "#c9906f");
+    p(42, 58, 26, 3, "#8a6b54");
 
-    // gloves
-    p(11, 108, 12, 9, "#d7cbd1");
-    p(68, 108, 12, 9, "#d7cbd1");
+    // Lab coat - dark with lapels
+    p(20, 60, 70, 50, "#1a1a20");
+    p(25, 64, 12, 40, "#0a0a0a");
+    p(73, 64, 12, 40, "#0a0a0a");
+    
+    // Coat front pockets
+    p(32, 70, 8, 10, "#0a0a0a");
+    p(70, 70, 8, 10, "#0a0a0a");
 
-    // small pen
-    p(60, 93, 2, 9, "#bd4777");
+    // Shirt underneath (dark purple)
+    p(42, 68, 26, 8, "#3a2a3a");
+    
+    // Hands/sleeves
+    p(18, 100, 10, 20, "#c9906f");
+    p(72, 100, 10, 20, "#c9906f");
+
+    // Gloves (leather)
+    p(16, 118, 14, 8, "#8a7a7a");
+    p(70, 118, 14, 8, "#8a7a7a");
+
+    // Pants
+    p(32, 110, 16, 25, "#2a1a2a");
+    p(62, 110, 16, 25, "#2a1a2a");
+
+    // Shoes
+    p(28, 135, 20, 8, "#5a5a5a");
+    p(62, 135, 20, 8, "#5a5a5a");
   }
 
-  // -------- SUBJECT (Reanimated) --------
+  // -------- SUBJECT (Reanimated with Stitches) --------
   function drawSubject() {
-    // curly hair
-    p(30, 0, 52, 16, "#1a0a0a");
-    p(24, 12, 18, 8, "#1a0a0a");
-    p(66, 12, 18, 8, "#1a0a0a");
-    p(38, 22, 30, 8, "#b8926a");
+    // Hair - dark, messy, partially disheveled
+    p(22, 0, 66, 10, "#1a0a0a");
+    p(18, 8, 14, 6, "#1a0a0a");
+    p(68, 8, 14, 6, "#1a0a0a");
+    p(26, 14, 58, 8, "#2a1a2a");
+    p(32, 20, 46, 4, "#3a2a3a");
 
-    // face
-    p(34, 26, 38, 30, "#b8926a");
+    // Face
+    p(34, 24, 42, 34, "#b8926a");
+    
+    // Dead eyes (hollow)
+    p(42, 34, 8, 6, "#3a3a4a");
+    p(60, 34, 8, 6, "#3a3a4a");
+    p(45, 36, 2, 2, "#1a1a1a");
+    p(63, 36, 2, 2, "#1a1a1a");
 
-    // eyes
-    p(42, 38, 6, 4, "#3f586c");
-    p(58, 38, 6, 4, "#3f586c");
-    p(44, 40, 4, 2, "#000");
-    p(60, 40, 4, 2, "#000");
+    // Nose (pale, slightly decayed)
+    p(50, 42, 5, 3, "#9a7a5a");
 
-    // stitches on face
-    p(36, 50, 10, 2, "#5a3a3a");
-    p(48, 48, 2, 6, "#c74a4a");
-    p(58, 50, 10, 2, "#5a3a3a");
-    p(54, 48, 2, 6, "#c74a4a");
+    // Mouth with stitches
+    p(40, 50, 20, 2, "#5a3a3a");
+    p(45, 48, 2, 6, "#d45a6a"); // stitch red
+    p(55, 48, 2, 6, "#d45a6a"); // stitch red
 
-    // torso
-    p(44, 58, 18, 12, "#1a1a2a");
-    p(30, 58, 12, 18, "#0a0a0a");
-    p(64, 58, 12, 18, "#0a0a0a");
+    // Face stitches
+    p(32, 28, 4, 1, "#5a3a3a");
+    p(32, 26, 1, 4, "#d45a6a");
+    p(74, 28, 4, 1, "#5a3a3a");
+    p(74, 26, 1, 4, "#d45a6a");
 
-    // body
-    p(26, 68, 56, 22, "#1a1a20");
+    // Neck stitches (crude reanimation marks)
+    p(40, 58, 30, 2, "#4a2a3a");
+    p(44, 56, 2, 6, "#d45a6a");
+    p(54, 56, 2, 6, "#d45a6a");
 
-    // pants
-    p(34, 92, 14, 24, "#2a5a6a");
-    p(58, 92, 14, 24, "#2a5a6a");
+    // Neck
+    p(40, 58, 30, 6, "#b8926a");
 
-    // shoes
-    p(26, 120, 20, 10, "#d9d9d9");
-    p(60, 120, 20, 10, "#d9d9d9");
+    // Body - tattered gown
+    p(25, 64, 60, 45, "#2a1a2a");
+    p(20, 70, 70, 8, "#1a0a1a");
+
+    // Arm wraps / bandages
+    p(15, 85, 12, 35, "#d9c9c9");
+    p(18, 88, 6, 6, "#1a0a1a");
+    p(18, 98, 6, 6, "#1a0a1a");
+    p(18, 108, 6, 6, "#1a0a1a");
+
+    p(73, 85, 12, 35, "#d9c9c9");
+    p(76, 88, 6, 6, "#1a0a1a");
+    p(76, 98, 6, 6, "#1a0a1a");
+    p(76, 108, 6, 6, "#1a0a1a");
+
+    // Hands (slightly grey/decayed)
+    p(14, 120, 12, 18, "#9a8a8a");
+    p(74, 120, 12, 18, "#9a8a8a");
+
+    // Pants
+    p(33, 110, 16, 25, "#1a0a1a");
+    p(61, 110, 16, 25, "#1a0a1a");
+
+    // Bare feet (pale, cold)
+    p(30, 135, 20, 8, "#d0a8c0");
+    p(60, 135, 20, 8, "#d0a8c0");
   }
 
-  // -------- DOCTOR --------
+  // -------- DOCTOR (Authority Figure) --------
   function drawDoctor() {
-    // hair
-    p(32, 0, 42, 14, "#5a3a4a");
-    p(28, 12, 50, 10, "#4a2a3a");
+    // Hair - grey/white, stern
+    p(28, 2, 54, 6, "#5a5a6a");
+    p(25, 8, 60, 10, "#5a5a6a");
+    p(30, 18, 50, 6, "#4a4a5a");
 
-    // face
-    p(35, 28, 34, 28, "#c9906f");
+    // Face - serious, older
+    p(36, 22, 38, 32, "#c9906f");
+    
+    // Eyes (cold, calculating)
+    p(43, 32, 7, 5, "#5a6a7a");
+    p(60, 32, 7, 5, "#5a6a7a");
+    p(45, 34, 3, 2, "#1a1a1a");
+    p(62, 34, 3, 2, "#1a1a1a");
 
-    // eyes
-    p(42, 38, 6, 4, "#6a7a8a");
-    p(58, 38, 6, 4, "#6a7a8a");
-    p(44, 40, 4, 2, "#2a2a2a");
-    p(60, 40, 4, 2, "#2a2a2a");
+    // Nose
+    p(51, 40, 4, 3, "#8a6b54");
 
-    // coat
-    p(26, 54, 54, 28, "#e8e8e8");
-    p(32, 60, 40, 18, "#d9d9d9");
+    // Mouth (thin, disapproving)
+    p(42, 50, 16, 1, "#8a5a6a");
 
-    // pants
-    p(34, 92, 14, 24, "#4a4a5a");
-    p(58, 92, 14, 24, "#4a4a5a");
+    // Neck
+    p(40, 54, 30, 8, "#c9906f");
 
-    // shoes
-    p(28, 120, 20, 10, "#5a5a5a");
-    p(58, 120, 20, 10, "#5a5a5a");
+    // Lab coat - white/cream, pristine
+    p(18, 60, 74, 55, "#e8e8e8");
+    p(20, 64, 70, 45, "#d9d9d9");
+    
+    // Coat seams
+    p(28, 65, 1, 40, "#c9c9c9");
+    p(82, 65, 1, 40, "#c9c9c9");
+
+    // Stethoscope around neck
+    p(45, 58, 20, 2, "#5a5a5a");
+    p(50, 60, 2, 4, "#5a5a5a");
+    p(58, 60, 2, 4, "#5a5a5a");
+
+    // Shirt collar (formal)
+    p(42, 62, 26, 4, "#2a1a2a");
+
+    // Hands
+    p(18, 105, 12, 20, "#c9906f");
+    p(70, 105, 12, 20, "#c9906f");
+
+    // Pants
+    p(35, 112, 14, 23, "#3a3a4a");
+    p(61, 112, 14, 23, "#3a3a4a");
+
+    // Shoes (polished)
+    p(30, 135, 20, 8, "#4a4a5a");
+    p(60, 135, 20, 8, "#4a4a5a");
   }
 
-  // -------- EXPERIMENT (Stitched Reanimant) --------
+  // -------- EXPERIMENT (Heavily Stitched Monstrosity) --------
   function drawExperiment() {
-    // curly hair
-    p(19, 8, 8, 22, "#120b11");
-    p(22, 4, 12, 25, "#120b11");
-    p(29, 1, 27, 13, "#120b11");
-    p(43, 3, 19, 12, "#120b11");
-    p(55, 8, 11, 23, "#120b11");
-    p(60, 17, 8, 18, "#120b11");
+    // Hair - torn, patched
+    p(18, 2, 14, 12, "#1a0a0a");
+    p(32, 0, 36, 10, "#1a0a0a");
+    p(68, 4, 14, 10, "#1a0a0a");
+    p(22, 12, 56, 8, "#0a0a0a");
+    p(28, 20, 44, 6, "#1a0a0a");
 
-    // main curls
-    p(23, 8, 12, 15, "#151017");
-    p(31, 4, 13, 14, "#151017");
-    p(41, 5, 15, 12, "#151017");
-    p(51, 8, 12, 16, "#151017");
-    p(21, 17, 12, 12, "#151017");
-    p(54, 18, 12, 12, "#151017");
+    // Face - half decayed, half stitched
+    p(34, 24, 42, 34, "#9a7a5a");
 
-    // neck
-    p(38, 42, 18, 12, "#75462f");
-    p(41, 48, 12, 7, "#5a3028");
+    // Dead eyes (completely black)
+    p(42, 34, 8, 6, "#1a1a1a");
+    p(60, 34, 8, 6, "#1a1a1a");
 
-    // face
-    detailedFace("#75462f", "#5a3028", "#050308");
+    // Nose - partially missing
+    p(52, 42, 3, 2, "#6a5a4a");
 
-    // black eyes override
-    p(33, 24, 5, 5, "#020106");
-    p(49, 24, 5, 5, "#020106");
+    // Mouth - sewn shut
+    p(38, 50, 24, 2, "#4a2a3a");
+    p(42, 48, 2, 6, "#c95a7a");
+    p(50, 48, 2, 6, "#c95a7a");
+    p(58, 48, 2, 6, "#c95a7a");
 
-    // stitch across forehead
-    p(29, 15, 10, 2, "#4b1c2a");
-    p(31, 13, 2, 6, "#c95d76");
-    p(36, 13, 2, 6, "#c95d76");
+    // Face stitches (extensive)
+    p(28, 26, 6, 1, "#4a2a3a");
+    p(28, 24, 1, 4, "#c95a7a");
+    p(34, 28, 4, 1, "#4a2a3a");
+    p(34, 26, 1, 4, "#c95a7a");
+    p(72, 26, 6, 1, "#4a2a3a");
+    p(76, 24, 1, 4, "#c95a7a");
+    p(70, 30, 4, 1, "#4a2a3a");
+    p(72, 28, 1, 4, "#c95a7a");
 
-    // stitch on cheek
-    p(52, 31, 8, 2, "#421723");
-    p(54, 29, 2, 6, "#c95d76");
+    // Neck - heavily stitched
+    p(38, 58, 34, 8, "#7a5a4a");
+    p(40, 56, 30, 2, "#4a2a3a");
+    p(45, 54, 2, 6, "#c95a7a");
+    p(55, 54, 2, 6, "#c95a7a");
+    p(65, 54, 2, 6, "#c95a7a");
 
-    // neck stitches
-    p(39, 47, 14, 2, "#421723");
-    p(42, 45, 2, 6, "#c95d76");
-    p(48, 45, 2, 6, "#c95d76");
+    // Body - patchwork corpse
+    p(22, 64, 66, 50, "#1a0a1a");
+    p(25, 68, 18, 30, "#0a0a0a");
+    p(67, 68, 18, 30, "#0a0a0a");
+    p(45, 70, 20, 35, "#2a1a1a");
 
-    // torso
-    p(32, 108, 12, 2, "#481a29");
-    p(36, 106, 2, 6, "#c95d76");
+    // Stitches down center of body
+    p(54, 66, 2, 40, "#c95a7a");
+    p(52, 70, 1, 4, "#4a2a3a");
+    p(56, 76, 1, 4, "#4a2a3a");
+    p(52, 84, 1, 4, "#4a2a3a");
+    p(56, 92, 1, 4, "#4a2a3a");
 
-    // chain around wrist
-    p(10, 103, 7, 3, "#75616b");
-    p(6, 106, 7, 3, "#493942");
-    p(69, 103, 7, 3, "#75616b");
+    // Arms - skeletal with patches
+    p(14, 90, 10, 30, "#5a4a4a");
+    p(76, 90, 10, 30, "#5a4a4a");
+
+    // Hand restraints/shackles
+    p(10, 110, 3, 15, "#7a6a6a");
+    p(97, 110, 3, 15, "#7a6a6a");
+
+    // Hands (corpse-like)
+    p(12, 120, 14, 20, "#6a5a5a");
+    p(74, 120, 14, 20, "#6a5a5a");
+
+    // Legs - uneven
+    p(32, 112, 14, 23, "#0a0a0a");
+    p(64, 112, 14, 23, "#0a0a0a");
+
+    // Feet (bare, blue-grey from death)
+    p(28, 135, 22, 8, "#6a8a9a");
+    p(60, 135, 22, 8, "#6a8a9a");
   }
 
   // Draw based on type
