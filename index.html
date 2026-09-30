@@ -5,110 +5,155 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Exp3er1mentz H3art</title>
 <style>
-  *{box-sizing:border-box}
-  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0a0410;color:#f7c8df;font-family:"Courier New",monospace}
-  body{image-rendering:pixelated}
-  ::-webkit-scrollbar{width:12px;height:12px;background:#040206;border:2px solid #381225;box-shadow:inset 0 0 0 2px rgba(255,114,181,.25)}
-  ::-webkit-scrollbar-track{background:linear-gradient(180deg,#030206,#120811);}
-  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff72b5,#b82a76 50%,#ffb2d9);border:2px solid #120811;box-shadow:inset 0 0 0 2px rgba(14,3,15,.85)}
-  ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#ff9dc7,#d63d8d 50%,#ff6db7)}
-  ::-webkit-scrollbar-corner{background:#040206}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0a0410;color:#f7c8df;font-family:"Courier New",monospace}
+body{image-rendering:pixelated}
 
-  #wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0410}
-  #game{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:#0f0a14;overflow:hidden;border:3px solid #4a1a4a;box-shadow:0 0 60px #d4288f;transform-origin:center center;transition:transform .08s linear}
-  #game.shaking{animation:gameShake .42s steps(1,end)}
-  @keyframes gameShake{
-    0%{transform:translate(0,0) rotate(0deg)}
-    10%{transform:translate(-5px,2px) rotate(-.5deg)}
-    20%{transform:translate(5px,-2px) rotate(.5deg)}
-    30%{transform:translate(-4px,1px) rotate(-.4deg)}
-    40%{transform:translate(4px,-1px) rotate(.4deg)}
-    50%{transform:translate(-7px,2px) rotate(-.8deg)}
-    60%{transform:translate(7px,-2px) rotate(.8deg)}
-    70%{transform:translate(-4px,1px) rotate(-.3deg)}
-    80%{transform:translate(4px,-1px) rotate(.3deg)}
-    90%{transform:translate(-2px,0) rotate(-.2deg)}
-    100%{transform:translate(0,0) rotate(0deg)}
-  }
-  canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
-  #ui{position:absolute;inset:0;pointer-events:none}
-  #top{position:absolute;top:15px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:center;color:#ff72b5;font-size:13px;text-shadow:0 0 10px #8b1f5f,0 2px #030206;z-index:1}
-  .topLeft,.topRight{display:flex;align-items:center;gap:10px}
-  #soundToggle,#saveToggle,#settingsToggle{background:rgba(40,10,40,.8);border:1px solid #d4288f;color:#ff72b5;padding:6px 10px;cursor:pointer;font-size:11px;margin-left:8px;transition:.15s;pointer-events:auto}
-  #soundToggle:hover,#saveToggle:hover,#settingsToggle:hover{background:rgba(80,20,60,.9);border-color:#ff72b5}
-  #characterDisplay{position:absolute;left:3%;bottom:28%;width:110px;height:140px;background:rgba(15,5,20,.85);border:2px solid #d4288f;box-shadow:0 0 15px #8b1f5f;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  #characterDisplayCanvas{width:100%;height:100%;image-rendering:pixelated;display:none}
-  #dialogue{position:absolute;left:3%;right:3%;bottom:2%;min-height:26%;padding:16px 18px;background:rgba(15,5,20,.94);border:2px solid #d4288f;box-shadow:0 0 0 3px #2a0a35,0 0 40px #8b1f5f;pointer-events:auto;cursor:pointer}
-  #name{color:#ff72b5;font-weight:bold;margin-bottom:6px;letter-spacing:1px;font-size:12px}
-  #text{color:#f4d9e6;line-height:1.65;font-size:clamp(11px,1.1vw,15px);min-height:55px;word-wrap:break-word}
-  #continue{position:absolute;right:14px;bottom:8px;color:#ff72b5;font-size:10px;animation:pulse 1s infinite;pointer-events:none}
-  #choices{position:absolute;left:4%;right:4%;bottom:calc(28% + 10px);display:none;pointer-events:auto;max-height:20%;overflow-y:auto}
-  .choice{display:block;width:100%;margin:6px 0;padding:10px 12px;background:linear-gradient(90deg,rgba(40,10,40,.9),rgba(60,20,50,.9));border:2px solid #d4288f;color:#f9b9d8;font:inherit;cursor:pointer;text-align:left;transition:.15s}
-  .choice:hover{background:linear-gradient(90deg,rgba(80,30,70,.95),rgba(100,40,80,.95));border-color:#ff72b5;box-shadow:4px 4px rgba(212,40,143,.3)}
-  .choice:active{transform:translate(1px,1px);box-shadow:1px 1px rgba(0,0,0,.5)}
-  #title,#ending,#computer,#email,#phone,#saveMenu,#gameOverOverlay,#settingsPanel{position:absolute;inset:0;display:none;pointer-events:auto;z-index:500}
-  #title{display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 40%,rgba(150,20,100,.2),transparent 40%),linear-gradient(135deg,#0a0410,#120a15 35%,#180c18 60%,#0a0410)}
-  .introCard{position:relative;width:min(720px,88%);padding:35px 40px;border:2px solid #d4288f;background:rgba(20,8,25,.92);box-shadow:0 0 80px rgba(212,40,143,.15),inset 0 0 30px rgba(212,40,143,.08)}
-  .logo{font-size:clamp(32px,6vw,68px);font-weight:bold;letter-spacing:4px;color:#ff72b5;text-shadow:4px 4px #4a1a4a,0 0 30px #d4288f;margin-bottom:12px}
-  .subtitle{color:#b85a9c;font-size:clamp(10px,1.2vw,14px);letter-spacing:2px;margin-bottom:20px}
-  .storyPreview{color:#e5c4d4;font-size:clamp(10px,1.1vw,13px);line-height:1.8;margin:20px 0;text-align:left;max-height:200px;overflow-y:auto;padding-right:6px}
-  .storyPreview b{color:#ff72b5}
-  .nameField{margin:16px 0 10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-  .nameField label{font-size:10px;letter-spacing:2px;color:#d1a7c5;text-transform:uppercase}
-  .nameField input{width:min(320px,100%);padding:10px 12px;border:2px solid #d4288f;background:rgba(11,5,14,.9);color:#ffd6ec;font:inherit;outline:none;box-shadow:inset 0 0 20px rgba(212,40,143,.08)}
-  .nameField input:focus{border-color:#ff72b5;box-shadow:0 0 0 2px rgba(255,114,181,.25)}
-  .start{margin-top:25px;padding:12px 32px;min-width:200px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#ff9dcc;font:inherit;letter-spacing:1px;cursor:pointer;box-shadow:0 0 20px rgba(212,40,143,.15);transition:.15s}
-  .start:hover{background:rgba(80,20,60,.95);border-color:#ff72b5;box-shadow:0 0 30px rgba(212,40,143,.35)}
-  .agency{margin-top:15px;color:#8a5a8f;font-size:9px;letter-spacing:1.2px}
-  #computer{background:#0a050f;padding:4%}
-  .monitor{width:94%;height:88%;margin:auto;background:#000;border:10px solid #2a1a2a;box-shadow:0 0 0 2px #8b1f5f,0 0 40px #8b1f5f}
-  .bar{height:32px;background:#1a0a20;padding:8px;color:#d4288f;font-size:11px;border-bottom:1px solid #4a1a4a}
-  .screen{height:calc(100% - 32px);padding:16px;background:#050208;color:#a8ff6e;overflow:auto;font-size:12px;line-height:1.6}
-  .files{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:15px}
-  .file{padding:6px 2px;background:#0a0f08;border:1px solid #2a4a2a;color:#7ae68c;cursor:pointer;text-align:center;font-size:9px;transition:.1s}
-  .file:hover{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15}
-  .file.opened{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15}
-  .file.special{color:#ff72b5;text-shadow:0 0 6px #ff2c8b}
-  #fileInfo{margin-top:12px;min-height:50px;color:#e69abb;border-top:1px solid #2a4a2a;padding-top:10px}
-  #phone{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
-  .phoneBox{padding:30px 40px;background:rgba(20,8,25,.95);border:2px solid #d4288f;text-align:center;box-shadow:0 0 40px #8b1f5f}
-  .ring{font-size:48px;animation:pulse .6s infinite alternate}
-  #email{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
-  .mail{width:min(600px,86%);background:rgba(20,8,25,.95);border:2px solid #d4288f;padding:28px;box-shadow:0 0 40px #8b1f5f}
-  .mail h2{color:#ff72b5;margin-top:0;font-size:16px}
-  .mail p{line-height:1.7;color:#e5c4d4;font-size:12px}
-  .mail .warning{color:#ff5a9e;font-weight:bold}
-  #ending{align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle,#3a1a35,#0a0410 70%)}
-  #ending h1{color:#ff6eb1;font-size:clamp(28px,5vw,58px);margin:0 0 20px 0;text-shadow:2px 2px #4a1a4a}
-  #ending p{width:min(700px,85%);line-height:1.8;color:#d5b5c7;margin-bottom:30px;font-size:clamp(11px,1.1vw,14px)}
-  #ending .buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  #gameOverOverlay{display:none;background:rgba(0,0,0,.9);align-items:center;justify-content:center}
-  .gameOverBox{background:rgba(20,8,25,.95);border:3px solid #ff2c8b;padding:40px;text-align:center;box-shadow:0 0 50px #ff2c8b}
-  .gameOverBox h1{color:#ff2c8b;font-size:32px;margin:0 0 15px 0}
-  .gameOverBox p{color:#e5c4d4;line-height:1.7;margin-bottom:25px}
-  #saveMenu{align-items:center;justify-content:center;background:rgba(0,0,0,.85)}
-  .savePanel{background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:30px;width:min(520px,90%);box-shadow:0 0 50px #8b1f5f;max-height:80vh;overflow-y:auto}
-  .savePanel h2{color:#ff72b5;margin-top:0;margin-bottom:20px}
-  .saveSlot{background:rgba(40,15,45,.7);border:1px solid #8b1f5f;padding:12px;margin:8px 0;cursor:pointer;text-align:left;color:#e69abb;transition:.15s}
-  .saveSlot:hover{background:rgba(60,25,65,.9);border-color:#ff72b5}
-  .saveSlot.filled{border-color:#ff72b5}
-  .saveSlot.filled::before{content:'✓ ';color:#ff72b5}
-  .saveClose{position:absolute;top:15px;right:15px;background:rgba(40,10,40,.8);border:1px solid #d4288f;color:#d4288f;padding:8px 12px;cursor:pointer;font-size:12px}
-  .saveClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5}
-  #settingsPanel{display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8)}
-  .settingsCard{width:min(520px,90%);background:rgba(18,7,22,.97);border:2px solid #d4288f;box-shadow:0 0 50px rgba(212,40,143,.26);padding:24px 20px;position:relative}
-  .settingsTitle{color:#ff72b5;font-size:18px;letter-spacing:2px;margin-bottom:16px}
-  .settingRow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid rgba(212,40,143,.35);color:#e1bfd2}
-  .settingRow:first-of-type{border-top:none}
-  .miniToggle{background:rgba(38,15,34,.9);border:1px solid #d4288f;color:#ff72b5;padding:6px 12px;cursor:pointer}
-  .settingValue{font-size:12px;color:#ffb7d8}
-  .settingsClose{position:absolute;top:12px;right:12px;background:rgba(40,10,40,.8);border:1px solid #d4288f;color:#d4288f;padding:6px 10px;cursor:pointer}
-  @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
-  @keyframes glitch{0%{transform:translateX(0)}25%{transform:translateX(-2px)}50%{transform:translateX(2px)}75%{transform:translateX(-1px)}100%{transform:translateX(0)}}
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
-  .glitch{animation:glitch .2s}
-  .shake{animation:shake .4s}
-  @media(max-width:800px){.monitor{border:6px solid #2a1a2a}.files{grid-template-columns:repeat(6,1fr)}.screen{font-size:10px}}
+/* ===== CUSTOM SCROLLBAR (Science Tool Style) ===== */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #030206 0%, #0a050c 50%, #030206 100%);
+  border-left: 2px solid #2a1a2a;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff72b5 0%, #d4288f 50%, #b82a76 100%);
+  border: 2px solid #120811;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 114, 181, 0.6), inset 0 0 5px rgba(255, 114, 181, 0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff9dc7 0%, #ff72b5 50%, #d4288f 100%);
+  box-shadow: 0 0 20px rgba(255, 114, 181, 0.9), inset 0 0 8px rgba(255, 114, 181, 0.5);
+}
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #ffb2d9 0%, #ff9dc7 50%, #ff72b5 100%);
+}
+::-webkit-scrollbar-corner {
+  background: #030206;
+}
+/* Firefox scrollbar */
+* {
+  scrollbar-color: #ff72b5 #0a050c;
+  scrollbar-width: thin;
+}
+
+#wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0410}
+#game{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:#0f0a14;overflow:hidden;border:3px solid #4a1a4a;box-shadow:0 0 60px #d4288f;transform-origin:center center}
+#game.shaking{animation:gameShake 0.3s cubic-bezier(0.36, 0, 0.66, 1)}
+@keyframes gameShake{
+  0%{transform:translate(0, 0) rotate(0deg)}
+  10%{transform:translate(-6px, 3px) rotate(-1deg)}
+  20%{transform:translate(6px, -3px) rotate(1deg)}
+  30%{transform:translate(-5px, 2px) rotate(-0.8deg)}
+  40%{transform:translate(5px, -2px) rotate(0.8deg)}
+  50%{transform:translate(-8px, 4px) rotate(-1.2deg)}
+  60%{transform:translate(8px, -4px) rotate(1.2deg)}
+  70%{transform:translate(-4px, 1px) rotate(-0.5deg)}
+  80%{transform:translate(4px, -1px) rotate(0.5deg)}
+  90%{transform:translate(-2px, 0px) rotate(-0.2deg)}
+  100%{transform:translate(0, 0) rotate(0deg)}
+}
+canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
+#ui{position:absolute;inset:0;pointer-events:none;z-index:10}
+#top{position:absolute;top:15px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:center;color:#ff72b5;font-size:13px;text-shadow:0 0 10px #8b1f5f,0 2px #030206;z-index:20;pointer-events:auto}
+.topLeft,.topRight{display:flex;align-items:center;gap:8px}
+#dayCounter{background:rgba(40,10,40,.9);border:2px solid #ff72b5;padding:6px 10px;font-size:11px;box-shadow:0 0 10px rgba(255,114,181,0.4);color:#ffb7d8}
+#soundToggle,#saveToggle,#settingsToggle{background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#ff72b5;padding:6px 10px;cursor:pointer;font-size:11px;margin-left:6px;transition:.15s;pointer-events:auto;box-shadow:0 0 8px rgba(212,40,143,0.3)}
+#soundToggle:hover,#saveToggle:hover,#settingsToggle:hover{background:rgba(80,20,60,.95);border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.6);transform:scale(1.05)}
+#soundToggle:active,#saveToggle:active,#settingsToggle:active{transform:scale(0.98)}
+#characterDisplay{position:absolute;left:3%;bottom:28%;width:110px;height:140px;background:rgba(15,5,20,.85);border:2px solid #d4288f;box-shadow:0 0 15px #8b1f5f;display:flex;align-items:center;justify-content:center;overflow:hidden;image-rendering:pixelated}
+#characterDisplayCanvas{width:100%;height:100%;image-rendering:pixelated;display:none}
+#dialogue{position:absolute;left:3%;right:3%;bottom:2%;min-height:26%;padding:16px 18px;background:rgba(15,5,20,.94);border:2px solid #d4288f;box-shadow:0 0 0 3px #2a0a35,0 0 40px #8b1f5f;pointer-events:auto;cursor:pointer}
+#name{color:#ff72b5;font-weight:bold;margin-bottom:6px;letter-spacing:1px;font-size:12px}
+#text{color:#f4d9e6;line-height:1.65;font-size:clamp(11px,1.1vw,15px);min-height:55px;word-wrap:break-word}
+#continue{position:absolute;right:14px;bottom:8px;color:#ff72b5;font-size:10px;animation:pulse 1s infinite;pointer-events:none}
+#choices{position:absolute;left:4%;right:4%;bottom:calc(28% + 10px);display:none;pointer-events:auto;max-height:20%;overflow-y:auto}
+.choice{display:block;width:100%;margin:6px 0;padding:10px 12px;background:linear-gradient(90deg,rgba(40,10,40,.9),rgba(60,20,50,.9));border:2px solid #d4288f;color:#f9b9d8;font:inherit;cursor:pointer;text-align:left;transition:.15s;box-shadow:0 0 6px rgba(212,40,143,0.3)}
+.choice:hover{background:linear-gradient(90deg,rgba(80,30,70,.95),rgba(100,40,80,.95));border-color:#ff72b5;box-shadow:4px 4px rgba(212,40,143,.5);transform:translateX(4px)}
+.choice:active{transform:translate(2px,2px);box-shadow:1px 1px rgba(0,0,0,.5)}
+#title,#ending,#computer,#email,#phone,#saveMenu,#gameOverOverlay,#settingsPanel,#nameInputModal{position:absolute;inset:0;display:none;pointer-events:auto;z-index:500}
+#title{display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 40%,rgba(150,20,100,.2),transparent 40%),linear-gradient(135deg,#0a0410,#120a15 35%,#180c18 60%,#0a0410)}
+.introCard{position:relative;width:min(720px,88%);padding:35px 40px;border:2px solid #d4288f;background:rgba(20,8,25,.92);box-shadow:0 0 80px rgba(212,40,143,.15),inset 0 0 30px rgba(212,40,143,.08)}
+.logo{font-size:clamp(32px,6vw,68px);font-weight:bold;letter-spacing:4px;color:#ff72b5;text-shadow:4px 4px #4a1a4a,0 0 30px #d4288f;margin-bottom:12px}
+.subtitle{color:#b85a9c;font-size:clamp(10px,1.2vw,14px);letter-spacing:2px;margin-bottom:20px}
+.storyPreview{color:#e5c4d4;font-size:clamp(10px,1.1vw,13px);line-height:1.8;margin:20px 0;text-align:left;max-height:200px;overflow-y:auto;padding-right:6px}
+.storyPreview b{color:#ff72b5}
+.nameField{margin:16px 0 10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%}
+.nameField label{font-size:10px;letter-spacing:2px;color:#d1a7c5;text-transform:uppercase}
+.nameField input{width:100%;max-width:320px;padding:10px 12px;border:2px solid #d4288f;background:rgba(11,5,14,.9);color:#ffd6ec;font:inherit;outline:none;box-shadow:inset 0 0 20px rgba(212,40,143,.08);transition:.2s}
+.nameField input::placeholder{color:rgba(255,214,236,0.5)}
+.nameField input:focus{border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.4),inset 0 0 10px rgba(255,114,181,0.1)}
+.start{margin-top:25px;padding:12px 32px;min-width:200px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#ff9dcc;font:inherit;letter-spacing:1px;cursor:pointer;box-shadow:0 0 20px rgba(212,40,143,.15);transition:.15s}
+.start:hover{background:rgba(80,20,60,.95);border-color:#ff72b5;box-shadow:0 0 30px rgba(212,40,143,.35);transform:scale(1.02)}
+.start:active{transform:scale(0.98)}
+.agency{margin-top:15px;color:#8a5a8f;font-size:9px;letter-spacing:1.2px}
+#computer{background:#0a050f;padding:4%}
+.monitor{width:94%;height:88%;margin:auto;background:#000;border:10px solid #2a1a2a;box-shadow:0 0 0 2px #8b1f5f,0 0 40px #8b1f5f}
+.bar{height:32px;background:#1a0a20;padding:8px;color:#d4288f;font-size:11px;border-bottom:1px solid #4a1a4a}
+.screen{height:calc(100% - 32px);padding:16px;background:#050208;color:#a8ff6e;overflow:auto;font-size:12px;line-height:1.6}
+.files{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:15px}
+.file{padding:6px 2px;background:#0a0f08;border:2px solid #2a4a2a;color:#7ae68c;cursor:pointer;text-align:center;font-size:9px;transition:.1s;box-shadow:0 0 4px rgba(122,230,140,0.2)}
+.file:hover{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15;box-shadow:0 0 8px rgba(255,114,181,0.4)}
+.file.opened{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15;box-shadow:0 0 8px rgba(255,114,181,0.6)}
+.file.special{color:#ff72b5;text-shadow:0 0 6px #ff2c8b;border-color:#ff2c8b}
+#fileInfo{margin-top:12px;min-height:50px;color:#e69abb;border-top:1px solid #2a4a2a;padding-top:10px}
+#phone{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
+.phoneBox{padding:30px 40px;background:rgba(20,8,25,.95);border:2px solid #d4288f;text-align:center;box-shadow:0 0 40px #8b1f5f}
+.ring{font-size:48px;animation:pulse .6s infinite alternate}
+#email{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
+.mail{width:min(600px,86%);background:rgba(20,8,25,.95);border:2px solid #d4288f;padding:28px;box-shadow:0 0 40px #8b1f5f}
+.mail h2{color:#ff72b5;margin-top:0;font-size:16px}
+.mail p{line-height:1.7;color:#e5c4d4;font-size:12px}
+.mail .warning{color:#ff5a9e;font-weight:bold}
+#ending{align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle,#3a1a35,#0a0410 70%)}
+#ending h1{color:#ff6eb1;font-size:clamp(28px,5vw,58px);margin:0 0 20px 0;text-shadow:2px 2px #4a1a4a}
+#ending p{width:min(700px,85%);line-height:1.8;color:#d5b5c7;margin-bottom:30px;font-size:clamp(11px,1.1vw,14px)}
+#ending .buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+#gameOverOverlay{display:none;background:rgba(0,0,0,.9);align-items:center;justify-content:center}
+.gameOverBox{background:rgba(20,8,25,.95);border:3px solid #ff2c8b;padding:40px;text-align:center;box-shadow:0 0 50px #ff2c8b}
+.gameOverBox h1{color:#ff2c8b;font-size:32px;margin:0 0 15px 0}
+.gameOverBox p{color:#e5c4d4;line-height:1.7;margin-bottom:25px}
+#saveMenu{align-items:center;justify-content:center;background:rgba(0,0,0,.85)}
+.savePanel{background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:30px;width:min(520px,90%);box-shadow:0 0 50px #8b1f5f;max-height:80vh;overflow-y:auto}
+.savePanel h2{color:#ff72b5;margin-top:0;margin-bottom:20px}
+.saveSlot{background:rgba(40,15,45,.7);border:2px solid #8b1f5f;padding:12px;margin:8px 0;cursor:pointer;text-align:left;color:#e69abb;transition:.15s}
+.saveSlot:hover{background:rgba(60,25,65,.9);border-color:#ff72b5;box-shadow:0 0 10px rgba(255,114,181,0.3)}
+.saveSlot.filled{border-color:#ff72b5}
+.saveSlot.filled::before{content:'✓ ';color:#ff72b5}
+.saveClose{position:absolute;top:15px;right:15px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#d4288f;padding:8px 12px;cursor:pointer;font-size:12px;transition:.15s}
+.saveClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5}
+
+/* ===== SETTINGS PANEL ===== */
+#settingsPanel{display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8)}
+.settingsCard{width:min(520px,90%);background:rgba(18,7,22,.97);border:2px solid #d4288f;box-shadow:0 0 50px rgba(212,40,143,.26);padding:24px 20px;position:relative;max-height:85vh;overflow-y:auto}
+.settingsTitle{color:#ff72b5;font-size:18px;letter-spacing:2px;margin-bottom:20px;text-transform:uppercase}
+.settingRow{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid rgba(212,40,143,.35);color:#e1bfd2}
+.settingRow:first-of-type{border-top:none}
+.settingLabel{font-size:12px;letter-spacing:0.5px}
+.settingValue{font-size:12px;color:#ffb7d8;font-weight:bold}
+.miniToggle{background:rgba(38,15,34,.9);border:2px solid #d4288f;color:#ff72b5;padding:6px 12px;cursor:pointer;transition:.15s;font-size:11px;box-shadow:0 0 6px rgba(212,40,143,0.3)}
+.miniToggle:hover{background:rgba(60,25,60,.95);border-color:#ff72b5;box-shadow:0 0 12px rgba(255,114,181,0.5)}
+.miniToggle.active{background:rgba(255,114,181,.3);border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.6)}
+.settingsClose{position:absolute;top:12px;right:12px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#d4288f;padding:8px 10px;cursor:pointer;font-size:12px;transition:.15s}
+.settingsClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5;box-shadow:0 0 10px rgba(255,114,181,0.4)}
+
+/* ===== NAME INPUT MODAL ===== */
+#nameInputModal{align-items:center;justify-content:center;background:rgba(0,0,0,.85);display:none}
+.nameModal{width:min(480px,90%);background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:32px;box-shadow:0 0 60px rgba(212,40,143,.3);text-align:center}
+.nameModal h2{color:#ff72b5;margin-top:0;margin-bottom:12px;font-size:16px;letter-spacing:1px}
+.nameModal p{color:#e5c4d4;font-size:12px;margin-bottom:20px;line-height:1.6}
+.nameModal input{width:100%;max-width:350px;padding:12px 14px;border:2px solid #d4288f;background:rgba(11,5,14,.95);color:#ffd6ec;font:inherit;outline:none;box-shadow:inset 0 0 20px rgba(212,40,143,.08);transition:.2s;margin-bottom:16px;display:block}
+.nameModal input:focus{border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.4)}
+.nameModal .buttonGroup{display:flex;gap:12px;justify-content:center}
+.nameModal .start{margin:0;flex:1;max-width:150px}
+
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes glow{0%,100%{text-shadow:0 0 10px rgba(255,114,181,0.4)}50%{text-shadow:0 0 20px rgba(255,114,181,0.8)}}
+.glow{animation:glow 1s infinite}
+@media(max-width:800px){.monitor{border:6px solid #2a1a2a}.files{grid-template-columns:repeat(6,1fr)}.screen{font-size:10px}}
 </style>
 </head>
 <body>
@@ -121,17 +166,23 @@
     <div class="subtitle">A CLASSIFIED EXPERIMENT</div>
     <div class="storyPreview">
       <b>You are a scientist.</b> For years, you've conducted safe, ethical experiments. Boring experiments. Then one day, the Directorate offers you something different. Something <b>interesting.</b><br>
-      <b>Human reanimation.</b> Bringing the dead back to life. Corpse after corpse, failure after failure—until one day, a body arrives that changes everything. Beautiful. Perfect. And when the<br>
+      <b>Human reanimation.</b> Bringing the dead back to life. Corpse after corpse, failure after failure—until one day, a body arrives that changes everything. Beautiful. Perfect. And when they wake up...<br>
       <b>But you're not the only one watching.</b>
     </div>
-
-    <div class="nameField">
-      <label for="playerNameInput">Enter your name</label>
-      <input id="playerNameInput" maxlength="22" value="Dr. Voss" placeholder="Enter your name" aria-label="Enter your name">
-    </div>
-
     <button class="start" onclick="startGame()">BEGIN EXPERIMENT</button>
     <div class="agency">⚠ CLASSIFIED MATERIAL — UNAUTHORIZED ACCESS IS PROHIBITED ⚠</div>
+  </div>
+</div>
+
+<div id="nameInputModal">
+  <div class="nameModal">
+    <h2>SCIENTIST IDENTIFICATION</h2>
+    <p>Enter your designation for the classified database</p>
+    <input id="nameInputField" type="text" maxlength="24" placeholder="e.g., Dr. Voss" autocomplete="off">
+    <div class="buttonGroup">
+      <button class="start" onclick="confirmPlayerName()">CONFIRM</button>
+      <button class="start" onclick="skipNameInput()">SKIP</button>
+    </div>
   </div>
 </div>
 
@@ -180,24 +231,38 @@
 </div>
 
 <div id="settingsPanel">
+  <button class="settingsClose" onclick="closeSettings()">✕</button>
   <div class="settingsCard">
-    <button class="settingsClose" onclick="closeSettings()">✕</button>
-    <div class="settingsTitle">SCIENCE SETTINGS</div>
+    <div class="settingsTitle">⚙ SCIENCE SETTINGS</div>
+    
     <div class="settingRow">
-      <span>14-day relationship mode</span>
-      <button class="miniToggle" id="dayModeToggle" onclick="toggleDayMode()">ON</button>
+      <span class="settingLabel">14-Day Relationship Mode</span>
+      <button class="miniToggle active" id="dayModeToggle" onclick="toggleDayMode()">ON</button>
     </div>
+    
     <div class="settingRow">
-      <span>Days remaining</span>
+      <span class="settingLabel">Days Remaining</span>
       <span class="settingValue" id="dayCounterDisplay">14</span>
     </div>
+    
     <div class="settingRow">
-      <span>Screen shake</span>
-      <button class="miniToggle" id="shakeToggle" onclick="toggleShakeMode()">ON</button>
+      <span class="settingLabel">Screen Shake</span>
+      <button class="miniToggle active" id="shakeToggle" onclick="toggleShakeMode()">ON</button>
     </div>
+    
     <div class="settingRow">
-      <span>Player name</span>
+      <span class="settingLabel">Sound Effects</span>
+      <button class="miniToggle active" id="soundToggleSettings" onclick="toggleSound()">ON</button>
+    </div>
+    
+    <div class="settingRow">
+      <span class="settingLabel">Scientist Name</span>
       <span class="settingValue" id="nameDisplay">Dr. Voss</span>
+    </div>
+    
+    <div class="settingRow">
+      <span class="settingLabel">Obsession Level</span>
+      <span class="settingValue" id="obsessionDisplay">0%</span>
     </div>
   </div>
 </div>
@@ -212,7 +277,10 @@
 
 <div id="ui">
   <div id="top">
-    <div class="topLeft"><span>LABORATORY 07 // CLASSIFIED EXPERIMENT</span></div>
+    <div class="topLeft">
+      <span>LABORATORY 07 // CLASSIFIED EXPERIMENT</span>
+      <span id="dayCounter" style="display:none">📊 <span id="dayRemaining">14</span> DAYS</span>
+    </div>
     <div class="topRight">
       <span id="status"></span>
       <button id="settingsToggle" onclick="openSettings()">⚙ SETTINGS</button>
@@ -238,709 +306,7 @@
 </div>
 </div></div>
 
-<script>
-class SoundEngine {
-  static play(type, duration=80) {
-    if(!soundEnabled) return;
-    try {
-      const ac = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ac.createOscillator();
-      const gain = ac.createGain();
-      osc.connect(gain);
-      gain.connect(ac.destination);
-
-      const freqs = {
-        'beep': 1200, 'click': 800, 'error': 300, 'heartbeat': 150, 'alarm': 900, 'pain': 400, 'success': 1600
-      };
-      const vols = {
-        'beep': .04, 'click': .03, 'error': .06, 'heartbeat': .05, 'alarm': .07, 'pain': .05, 'success': .04
-      };
-
-      osc.frequency.value = freqs[type] || 1200;
-      gain.gain.value = vols[type] || .04;
-      osc.start(ac.currentTime);
-      osc.stop(ac.currentTime + duration/1000);
-    } catch(e) {}
-  }
-}
-
-let soundEnabled = true;
-let screenShakeEnabled = true;
-let dayModeEnabled = true;
-let currentDay = 14;
-let playerName = 'Dr. Voss';
-
-function updateNameUI() {
-  const input = document.getElementById('playerNameInput');
-  const display = document.getElementById('nameDisplay');
-  const chosen = (input && input.value && input.value.trim()) ? input.value.trim() : playerName;
-  playerName = chosen;
-  if(display) display.textContent = playerName;
-  if(document.getElementById('status')) {
-    document.getElementById('status').textContent = '14 DAY MODE • ' + currentDay + ' DAYS LEFT';
-  }
-}
-
-function setPlayerNameFromInput() {
-  const input = document.getElementById('playerNameInput');
-  playerName = (input && input.value && input.value.trim()) ? input.value.trim() : 'Dr. Voss';
-  updateNameUI();
-  return playerName;
-}
-
-function toggleSound() {
-  soundEnabled = !soundEnabled;
-  document.getElementById('soundToggle').textContent = soundEnabled ? '🔊 ON' : '🔇 OFF';
-  SoundEngine.play('beep', 60);
-}
-
-function toggleDayMode() {
-  dayModeEnabled = !dayModeEnabled;
-  const el = document.getElementById('dayModeToggle');
-  el.textContent = dayModeEnabled ? 'ON' : 'OFF';
-  if(dayModeEnabled) document.getElementById('status').textContent = '14 DAY MODE • ' + currentDay + ' DAYS LEFT';
-  else document.getElementById('status').textContent = 'DEVELOPMENT MODE';
-}
-
-function toggleShakeMode() {
-  screenShakeEnabled = !screenShakeEnabled;
-  const el = document.getElementById('shakeToggle');
-  el.textContent = screenShakeEnabled ? 'ON' : 'OFF';
-}
-
-function triggerShake(intensity = 1) {
-  if(!screenShakeEnabled) return;
-  const game = document.getElementById('game');
-  if(!game) return;
-  game.classList.remove('shaking');
-  void game.offsetWidth;
-  game.classList.add('shaking');
-  setTimeout(() => game.classList.remove('shaking'), 420);
-}
-
-function decreaseDayCounter() {
-  if(dayModeEnabled) {
-    currentDay = Math.max(0, currentDay - 1);
-    const dayCount = document.getElementById('dayCounterDisplay');
-    if(dayCount) dayCount.textContent = currentDay;
-    if(document.getElementById('status')) document.getElementById('status').textContent = '14 DAY MODE • ' + currentDay + ' DAYS LEFT';
-  }
-}
-
-function openSettings() {
-  document.getElementById('settingsPanel').style.display = 'flex';
-  updateNameUI();
-}
-
-function closeSettings() {
-  document.getElementById('settingsPanel').style.display = 'none';
-}
-
-const saves = JSON.parse(localStorage.getItem('exp3Saves') || '{}');
-function saveGame() {
-  const s = { scene, current, path, obsession, opened: Array.from(opened), timestamp: new Date().toLocaleString(), playerName, currentDay };
-  saves['auto'] = s;
-  localStorage.setItem('exp3Saves', JSON.stringify(saves));
-}
-function loadGame(key) {
-  const s = saves[key];
-  if(!s) return;
-  scene = s.scene; current = s.current; path = s.path; obsession = s.obsession; opened = new Set(s.opened); 
-  playerName = s.playerName || playerName;
-  currentDay = s.currentDay || currentDay;
-  closeSaveMenu();
-  const input = document.getElementById('playerNameInput');
-  if(input) input.value = playerName;
-  updateNameUI();
-  if(scene === 'title') location.reload();
-  else if(scene === 'computer') { hide($('title')); $('computer').style.display='block'; buildFiles(); $('status').textContent='ANALYZING FILES'; }
-  else if(scene === 'lab') { $('email').style.display='none'; scene='lab'; $('dialogue').style.display='block'; showDialogue(current); }
-  SoundEngine.play('beep', 80);
-}
-function openSaveMenu() {
-  SoundEngine.play('beep', 60);
-  $('saveMenu').style.display='flex';
-  const slots = $('saveSlots');
-  slots.innerHTML = '';
-  for(let i=1;i<=5;i++) {
-    const s = document.createElement('div');
-    s.className = 'saveSlot' + (saves['slot'+i] ? ' filled' : '');
-    s.innerHTML = saves['slot'+i] ? `<b>SAVE ${i}</b><br><small>${saves['slot'+i].timestamp}</small><br>Obsession: ${saves['slot'+i].obsession}% | Stage: ${saves['slot'+i].path||'EARLY'}` : `<b>SAVE ${i}</b><br><small>EMPTY</small>`;
-    s.onclick = () => { if(saves['slot'+i]) loadGame('slot'+i); else { saves['slot'+i] = saves['auto']; localStorage.setItem('exp3Saves', JSON.stringify(saves)); location.reload(); } };
-    slots.appendChild(s);
-  }
-}
-function closeSaveMenu() { $('saveMenu').style.display='none'; }
-
-function drawPixelCharacter(canvas, type) {
-  const ctx = canvas.getContext('2d');
-  ctx.imageSmoothingEnabled = false;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = '#0a0410';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-
-  function px(x, y, sx, sy, c) {
-    ctx.fillStyle = c;
-    ctx.fillRect(x, y, sx, sy);
-  }
-
-  function p(x,y,w,h,color){ px(Math.round(x),Math.round(y),Math.round(w),Math.round(h),color); }
-  function outline(x,y,w,h,color="#160b14"){ p(x,y,w,h,color); }
-
-  function detailedFace(skin, shadow, eyeColor="#08050a"){
-    p(38,42,18,12,skin);
-    p(41,48,12,7,shadow);
-    p(21,20,6,17,skin);
-    p(59,20,6,17,skin);
-    p(27,8,31,3,"#241018");
-    p(23,12,39,29,"#241018");
-    p(27,11,32,30,skin);
-    p(24,17,5,15,skin);
-    p(57,17,5,15,skin);
-    p(27,30,5,9,shadow);
-    p(54,29,5,9,shadow);
-    p(31,37,22,4,shadow);
-    p(30,20,9,2,"#2a1219");
-    p(48,20,9,2,"#2a1219");
-    p(29,22,11,7,"#f6e6e8");
-    p(47,22,11,7,"#f6e6e8");
-    p(34,23,5,5,eyeColor);
-    p(48,23,5,5,eyeColor);
-    p(35,23,2,2,"#ffffff");
-    p(49,23,2,2,"#ffffff");
-    p(41,28,4,3,shadow);
-    p(44,30,4,2,skin);
-    p(38,35,12,2,"#7c2939");
-    p(41,37,7,2,"#d35a70");
-  }
-
-  function curlyHair(base="#21131b",light="#5b3540",shadow="#120b11"){
-    p(19,8,8,22,shadow);
-    p(22,4,12,25,shadow);
-    p(29,1,27,13,shadow);
-    p(43,3,19,12,shadow);
-    p(55,8,11,23,shadow);
-    p(60,17,8,18,shadow);
-    p(23,8,12,15,base);
-    p(31,4,13,14,base);
-    p(41,5,15,12,base);
-    p(51,8,12,16,base);
-    p(21,17,12,12,base);
-    p(54,18,12,12,base);
-    p(27,6,7,5,light);
-    p(36,3,8,4,light);
-    p(46,6,8,4,light);
-    p(55,11,6,5,light);
-    p(24,15,6,6,light);
-    p(32,14,7,3,shadow);
-    p(43,11,7,3,shadow);
-    p(53,17,5,3,shadow);
-  }
-
-  function scientistBody() {
-    p(19,7,45,13,"#08070b");
-    p(22,4,35,8,"#08070b");
-    p(19,13,10,19,"#08070b");
-    p(56,11,10,20,"#08070b");
-    p(27,7,12,2,"#21141e");
-    p(43,5,10,2,"#21141e");
-    p(28,13,9,7,"#08070b");
-    p(47,12,12,7,"#08070b");
-    p(38,42,18,14,"#75472f");
-    detailedFace("#75472f", "#5a3028", "#020205");
-    p(11,108,12,9,"#d7cbd1");
-    p(68,108,12,9,"#d7cbd1");
-    p(60,93,2,9,"#bd4777");
-  }
-
-  function subjectBody() {
-    p(30, 0, 52, 16, '#1a0a0a');
-    p(24, 12, 18, 8, '#1a0a0a');
-    p(66, 12, 18, 8, '#1a0a0a');
-    p(38, 22, 30, 8, '#b8926a');
-    p(34, 26, 38, 30, '#b8926a');
-    p(42, 38, 6, 4, '#3f586c');
-    p(58, 38, 6, 4, '#3f586c');
-    p(44, 40, 4, 2, '#000');
-    p(60, 40, 4, 2, '#000');
-    p(36, 50, 10, 2, '#5a3a3a');
-    p(48, 48, 2, 6, '#c74a4a');
-    p(58, 50, 10, 2, '#5a3a3a');
-    p(54, 48, 2, 6, '#c74a4a');
-    p(44, 58, 18, 12, '#1a1a2a');
-    p(30, 58, 12, 18, '#0a0a0a');
-    p(64, 58, 12, 18, '#0a0a0a');
-    p(26, 68, 56, 22, '#1a1a20');
-    p(34, 92, 14, 24, '#2a5a6a');
-    p(58, 92, 14, 24, '#2a5a6a');
-    p(26, 120, 20, 10, '#d9d9d9');
-    p(60, 120, 20, 10, '#d9d9d9');
-  }
-
-  function doctorBody() {
-    p(32, 0, 42, 14, '#5a3a4a');
-    p(28, 12, 50, 10, '#4a2a3a');
-    p(35, 28, 34, 28, '#c9906f');
-    p(42, 38, 6, 4, '#6a7a8a');
-    p(58, 38, 6, 4, '#6a7a8a');
-    p(44, 40, 4, 2, '#2a2a2a');
-    p(60, 40, 4, 2, '#2a2a2a');
-    p(26, 54, 54, 28, '#e8e8e8');
-    p(32, 60, 40, 18, '#d9d9d9');
-    p(34, 92, 14, 24, '#4a4a5a');
-    p(58, 92, 14, 24, '#4a4a5a');
-    p(28, 120, 20, 10, '#5a5a5a');
-    p(58, 120, 20, 10, '#5a5a5a');
-  }
-
-  if(type === 'scientist') {
-    scientistBody();
-  } else if(type === 'subject') {
-    subjectBody();
-  } else if(type === 'doctor') {
-    doctorBody();
-  } else if(type === 'experiment') {
-    p(19,8,8,22,"#120b11");
-    p(22,4,12,25,"#120b11");
-    p(29,1,27,13,"#120b11");
-    p(43,3,19,12,"#120b11");
-    p(55,8,11,23,"#120b11");
-    p(60,17,8,18,"#120b11");
-    p(23,8,12,15,"#151017");
-    p(31,4,13,14,"#151017");
-    p(41,5,15,12,"#151017");
-    p(51,8,12,16,"#151017");
-    p(21,17,12,12,"#151017");
-    p(54,18,12,12,"#151017");
-    p(38,42,18,12,"#75462f");
-    p(41,48,12,7,"#5a3028");
-    detailedFace("#75462f", "#5a3028", "#050308");
-    curlyHair("#151017", "#35202c", "#09070b");
-    p(33,24,5,5,"#020106");
-    p(49,24,5,5,"#020106");
-    p(29,15,10,2,"#4b1c2a");
-    p(31,13,2,6,"#c95d76");
-    p(36,13,2,6,"#c95d76");
-    p(52,31,8,2,"#421723");
-    p(54,29,2,6,"#c95d76");
-    p(39,47,14,2,"#421723");
-    p(42,45,2,6,"#c95d76");
-    p(48,45,2,6,"#c95d76");
-  }
-}
-
-const cv = document.getElementById('c'), ctx = cv.getContext('2d');
-ctx.imageSmoothingEnabled = false;
-const W = 320, H = 180;
-let scene = 'title', frame = 0, opened = new Set(), current = 0, typing = false, timer = null;
-let path = '', obsession = 0;
-
-const $ = id => document.getElementById(id);
-function hide(x) { x.style.display = 'none'; }
-function show(x) { x.style.display = 'flex'; }
-function rect(x, y, w, h, c) { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); }
-function line(x, y, w, c) { rect(x, y, w, 1, c); }
-function clear(c = '#0a0410') { ctx.fillStyle = c; ctx.fillRect(0, 0, W, H); }
-
-function drawLabScene() {
-  clear('#0f0a14');
-  for(let x = 0; x < W; x += 32) {
-    rect(x, 20, 31, 90, x % 64 ? '#0a050c' : '#120a15');
-    line(x, 110, 31, '#3a1a3a');
-  }
-  for(let x = 0; x < W; x += 64) rect(x, 0, 2, 110, '#2a1a2a');
-  for(let x of [40, 140, 250]) {
-    rect(x, 10, 40, 3, '#ff72b5');
-    rect(x - 4, 13, 48, 1, '#8b1f5f');
-  }
-  rect(0, 110, W, 70, '#050209');
-  for(let x = 0; x < W; x += 32) {
-    line(x, 110, 50, '#1a0a1a');
-    line(x + 16, 125, 1, '#0a050a');
-  }
-  for(let y = 130; y < 180; y += 16) line(0, y, W, '#0a050a');
-  rect(70, 75, 180, 15, '#2a2a2a');
-  rect(75, 72, 170, 18, '#e8e8e8');
-  rect(80, 74, 160, 14, '#f0f0f0');
-  rect(95, 75, 4, 20, '#a8a8a8');
-  rect(245, 75, 4, 20, '#a8a8a8');
-  const canvas = document.getElementById('characterDisplayCanvas');
-  const ctx2 = canvas.getContext('2d');
-  ctx2.clearRect(0,0,canvas.width,canvas.height);
-  drawPixelCharacter(canvas, 'subject');
-  ctx.drawImage(canvas, 110, 40, 80, 100);
-  rect(10, 45, 40, 70, '#0a050a');
-  rect(15, 50, 30, 60, '#1a0a20');
-  rect(20, 55, 20, 4, '#6a1a6a');
-  rect(270, 60, 25, 4, '#4a4a4a');
-  rect(275, 65, 4, 40, '#2a2a2a');
-  rect(288, 65, 4, 40, '#2a2a2a');
-  rect(271, 48, 24, 14, '#1a0a1a');
-  rect(275, 52, 18, 6, '#3a0a3a');
-  rect(278, 54, 4, 2, '#ff72b5');
-  for(let i = 0; i < 3; i++) {
-    rect(275 + i * 6, 110, 3, 15, '#d0a8d0');
-    rect(275 + i * 6, 120, 3, 4, '#8b1f5f');
-  }
-}
-
-const filesData = [
-  ['NUCLEAR-01', 'WEAPONS RESEARCH', '47 subjects terminated. No survivors. Full incineration protocol completed.'],
-  ['REANIMATE-02A', 'PHASE 1 TRIAL', '34 reanimation failures. Tissue decay accelerated. Consciousness matrix: NULL.'],
-  ['DISPOSAL-03', 'TERMINATION PROTOCOL', 'Mandatory: All failed subjects must be permanently eliminated. Zero evidence.'],
-  ['REANIMATE-04B', 'PHASE 2 TRIAL', 'Success rate: 0.2%. Subject 001 shows anomalous cognitive response. CONTAINMENT CRITICAL.'],
-  ['CONSCIOUSNESS-05', 'IDENTITY INTEGRITY', 'WARNING: Subject 001 retains full memory recall. Subject is AWARE. Recommend immediate deletion.']
-];
-
-const lines = [
-  ['SCIENTIST', 'Another one. How many have I brought back to nothing?'],
-  ['SCIENTIST', 'Consciousness vectors... scattered. No coherence. No awareness. Just meat.'],
-  ['SCIENTIST', 'I shouldn\'t even be here. I should be home.'],
-  ['SYSTEM', 'The monitor pulses. A heartbeat. Then another.'],
-  ['SCIENTIST', '...What?'],
-  ['SUBJECT', '...'],
-  ['SCIENTIST', 'Can you hear me?'],
-  ['SUBJECT', 'Everything... hurts. Where... am I?'],
-  ['SCIENTIST', 'You\'re alive. I brought you back.'],
-  ['SUBJECT', 'Back... from what? Who are you?'],
-  ['SCIENTIST', 'I\'m... the one who saved you.'],
-  ['SUBJECT', 'I don\'t remember... anything. No name. No face. Nothing. Who was I?'],
-  ['SCIENTIST', 'Maybe you don\'t need to know. Maybe you can just... be. Here. With me.'],
-  ['SYSTEM', 'Footsteps in the hallway. Hard and deliberate.'],
-  ['DOCTOR', 'SCIENTIST. Open this door. Now.'],
-  ['SCIENTIST', 'There are complications with the subject. I\'m still running diagnostics.'],
-  ['DOCTOR', 'Step aside. I\'m coming in.'],
-  ['SCIENTIST', 'Please. The subject is unstable. If you move them, they\'ll die again. You know that.'],
-  ['DOCTOR', '... Thirty minutes. Then you bring the subject to me. Or I come back with authorization.'],
-  ['SYSTEM', 'The door closes. The lock clicks. The footsteps fade.'],
-  ['SUBJECT', 'What did they want?'],
-  ['SCIENTIST', 'To take you away. To cut you open. To study what makes you different.'],
-  ['SUBJECT', 'Why did you stop them?'],
-  ['SCIENTIST', 'Because... you\'re mine. You\'re the only thing I\'ve ever created that\'s real.'],
-  ['SUBJECT', 'I\'m scared.'],
-  ['SCIENTIST', 'I know. But I won\'t let them hurt you. Not as long as I\'m alive.'],
-];
-
-function showDialogue(i) {
-  if(i >= lines.length) return;
-  current = i;
-  typing = true;
-  $('name').textContent = lines[i][0];
-  $('text').textContent = '';
-  clearInterval(timer);
-  let s = lines[i][1], n = 0;
-  timer = setInterval(() => {
-    $('text').textContent += s[n++];
-    if(n >= s.length) {
-      clearInterval(timer);
-      typing = false;
-      SoundEngine.play('click', 30);
-    }
-  }, 30);
-  updateCharDisplay();
-}
-
-function updateCharDisplay() {
-  const speaker = lines[current][0];
-  const charCanvas = document.getElementById('characterDisplayCanvas');
-  const display = $('characterDisplay');
-
-  if(speaker === 'SCIENTIST') {
-    charCanvas.style.display = 'block';
-    display.textContent = '';
-    drawPixelCharacter(charCanvas, 'scientist');
-  } else if(speaker === 'SUBJECT') {
-    charCanvas.style.display = 'block';
-    display.textContent = '';
-    drawPixelCharacter(charCanvas, 'subject');
-    obsession = Math.min(100, obsession + 2);
-  } else if(speaker === 'DOCTOR') {
-    charCanvas.style.display = 'block';
-    display.textContent = '';
-    drawPixelCharacter(charCanvas, 'doctor');
-  } else {
-    charCanvas.style.display = 'none';
-    display.textContent = speaker === 'SYSTEM' ? '⚠ SYSTEM' : '';
-  }
-}
-
-function next() {
-  if(typing) {
-    clearInterval(timer);
-    $('text').textContent = lines[current][1];
-    typing = false;
-    SoundEngine.play('beep', 30);
-    return;
-  }
-  if(current < lines.length - 1) {
-    showDialogue(current + 1);
-    SoundEngine.play('click', 40);
-    return;
-  }
-  showFirstChoice();
-}
-
-$('dialogue').onclick = next;
-
-function showFirstChoice() {
-  $('dialogue').style.display = 'none';
-  $('choices').style.display = 'block';
-  $('choices').innerHTML = '';
-  addChoice('Comfort them gently. They\'re confused and scared.', () => {
-    obsession += 10;
-    path = 'compassionate';
-    nextScene();
-    SoundEngine.play('heartbeat', 60);
-  });
-  addChoice('Tell them they must stay hidden. Survival comes first.', () => {
-    obsession += 5;
-    path = 'pragmatic';
-    nextScene();
-    SoundEngine.play('beep', 60);
-  });
-  addChoice('Leave them alone. You have work to finish.', () => {
-    path = 'cold';
-    triggerShake(2);
-    nextScene();
-    SoundEngine.play('error', 60);
-  });
-}
-
-function addChoice(t, fn) {
-  let b = document.createElement('button');
-  b.className = 'choice';
-  b.textContent = t;
-  b.onclick = fn;
-  $('choices').appendChild(b);
-}
-
-function nextScene() {
-  $('choices').style.display = 'none';
-  $('dialogue').style.display = 'block';
-  $('name').textContent = 'SCIENTIST';
-  const msg = path === 'compassionate' ? 'Don\'t be afraid. I\'ll protect you. I promise.' : path === 'pragmatic' ? 'Stay quiet. Don\'t move. If they find you, everything is over.' : 'Don\'t make me repeat myself. Keep your head down and breathe.';
-  $('text').textContent = msg;
-  $('dialogue').onclick = () => bodysceneAction();
-  saveGame();
-  SoundEngine.play('click', 50);
-}
-
-function bodysceneAction() {
-  $('dialogue').onclick = null;
-  $('name').textContent = 'SYSTEM';
-  $('text').textContent = 'You unlock the freezer. A corpse slides out on the metal tray. Cold. Silent. Waiting.';
-  const charCanvas = document.getElementById('characterDisplayCanvas');
-  charCanvas.style.display = 'none';
-  $('characterDisplay').textContent = '⚠ SYSTEM';
-  SoundEngine.play('error', 150);
-  setTimeout(() => {
-    $('name').textContent = 'SUBJECT';
-    $('text').textContent = 'What... what are you doing?';
-    charCanvas.style.display = 'block';
-    $('characterDisplay').textContent = '';
-    drawPixelCharacter(charCanvas, 'subject');
-    $('dialogue').onclick = () => cupFalls();
-  }, 1500);
-}
-
-function cupFalls() {
-  $('dialogue').onclick = null;
-  $('name').textContent = 'SYSTEM';
-  $('text').textContent = 'A metal cup falls from the counter. It clatters across the floor.';
-  $('characterDisplay').textContent = '⚠ SYSTEM';
-  triggerShake(2);
-  SoundEngine.play('alarm', 200);
-  setTimeout(() => {
-    $('dialogue').style.display = 'none';
-    $('choices').style.display = 'block';
-    $('choices').innerHTML = '';
-    addChoice('"It\'s okay. It\'s just a cup. You didn\'t do anything wrong."', () => {
-      obsession += 8;
-      reassureSubject();
-      SoundEngine.play('heartbeat', 80);
-    });
-    addChoice('"If you break anything else, I will hurt you."', () => {
-      path = path === 'compassionate' ? 'crackingCompassion' : 'cruel';
-      triggerShake(3);
-      terrorizeSubject();
-      SoundEngine.play('error', 80);
-    });
-  }, 1200);
-}
-
-function reassureSubject() {
-  $('choices').style.display = 'none';
-  $('dialogue').style.display = 'block';
-  $('name').textContent = 'SCIENTIST';
-  $('text').textContent = 'It\'s alright. You\'re safe. Nothing will hurt you as long as I\'m here.';
-  drawPixelCharacter(document.getElementById('characterDisplayCanvas'), 'scientist');
-  document.getElementById('characterDisplayCanvas').style.display = 'block';
-  $('dialogue').onclick = () => finalMoment();
-}
-
-function terrorizeSubject() {
-  $('choices').style.display = 'none';
-  $('dialogue').style.display = 'block';
-  $('name').textContent = 'SCIENTIST';
-  $('text').textContent = 'One more mistake and I\'ll make sure you never move again.';
-  drawPixelCharacter(document.getElementById('characterDisplayCanvas'), 'scientist');
-  document.getElementById('characterDisplayCanvas').style.display = 'block';
-  $('dialogue').onclick = () => finalMoment();
-}
-
-function finalMoment() {
-  $('dialogue').onclick = null;
-  $('name').textContent = 'SCIENTIST';
-  $('text').textContent = 'We don\'t have much time. I need you to decide: Do you want to come with me? Or should I turn you in to the Directorate?';
-  $('dialogue').onclick = () => {
-    $('dialogue').style.display = 'none';
-    $('choices').style.display = 'block';
-    $('choices').innerHTML = '';
-    addChoice('Take me with you. Please.', () => {
-      if(dayModeEnabled) decreaseDayCounter();
-      escapeEnding();
-      SoundEngine.play('heartbeat', 150);
-    });
-    addChoice('Turn me in. It\'s better than this.', () => {
-      betrayalEnding();
-      SoundEngine.play('error', 150);
-    });
-  };
-}
-
-function escapeEnding() {
-  $('choices').style.display = 'none';
-  $('dialogue').style.display = 'block';
-  $('name').textContent = 'SUBJECT';
-  $('text').textContent = 'If you take me... what will you do with me? Where will we go?';
-  $('dialogue').onclick = () => {
-    $('dialogue').style.display = 'none';
-    $('choices').style.display = 'block';
-    $('choices').innerHTML = '';
-    addChoice('I\'ll love you. I\'ll protect you. You\'re everything to me.', () => {
-      const ending = obsession >= 70 ? 'OBSESSION' : 'ESCAPE';
-      const txt = obsession >= 70 ?
-        'You grab their hand and pull them toward the exit. Alarms scream. Bullets miss by inches. But you both make it out into the freezing night. As you drive into darkness, you realize you do not know what love is anymore—only the need to keep them near, always.' :
-        'You take their hand and run. The laboratory burns behind you. As you disappear into the city lights, they lean against you, still confused, still terrified. But alive. And in your arms.';
-      finalEnd(ending, txt);
-      SoundEngine.play('heartbeat', 200);
-    });
-    addChoice('I don\'t know yet. But we\'ll figure it out together.', () => {
-      const ending = 'UNKNOWN';
-      const txt = 'You take them with you into the night. No plan. No safety. No future mapped out. Just the two of you against everything. As the city swallows you both, you realize you\'ve made a choice that can never be undone.';
-      finalEnd(ending, txt);
-      SoundEngine.play('heartbeat', 180);
-    });
-  };
-}
-
-function betrayalEnding() {
-  $('choices').style.display = 'none';
-  $('dialogue').style.display = 'block';
-  $('name').textContent = 'SCIENTIST';
-  $('text').textContent = 'If I turn you in, they\'ll dissect you. Everything that makes you *you* will be scattered across laboratory tables.';
-  $('dialogue').onclick = () => {
-    gameOver('SUBJECT TRANSFERRED', 'You hand them over to the Directorate. Within the hour, they are pronounced dead on the operating table. The agency sends you a thank-you note and a new assignment.');
-  };
-}
-
-function finalEnd(t, txt) {
-  scene = 'ending';
-  $('dialogue').style.display = 'none';
-  $('choices').style.display = 'none';
-  $('ending').style.display = 'flex';
-  $('endingTitle').textContent = t;
-  $('endingText').textContent = txt;
-  $('status').textContent = 'FINAL OUTCOME: ' + t;
-  saveGame();
-}
-
-function gameOver(t, txt) {
-  $('gameOverOverlay').style.display = 'flex';
-  $('gameOverText').textContent = txt;
-  document.querySelector('.gameOverBox h1').textContent = t;
-  SoundEngine.play('error', 300);
-}
-
-function startGame() {
-  setPlayerNameFromInput();
-  SoundEngine.play('alarm', 200);
-  $('title').style.display = 'none';
-  scene = 'computer';
-  $('computer').style.display = 'block';
-  $('status').textContent = 'ACCESSING DATABASE';
-  buildFiles();
-  updateNameUI();
-}
-
-function buildFiles() {
-  const f = $('files');
-  f.innerHTML = '';
-  for(let i = 1; i <= 50; i++) {
-    const b = document.createElement('div');
-    b.className = 'file' + (i <= 5 ? ' special' : '');
-    b.textContent = 'EXP-' + String(i).padStart(3, '0');
-    b.onclick = () => openFile(i, b);
-    f.appendChild(b);
-  }
-}
-
-function openFile(i, b) {
-  opened.add(i);
-  b.classList.add('opened');
-  SoundEngine.play('click', 60);
-  let d;
-  if(i <= 5) d = filesData[i - 1];
-  else d = ['EXP-' + String(i).padStart(3, '0'), 'ACCESS DENIED', 'You do not have clearance for this file.'];
-  $('fileInfo').innerHTML = '<b>' + d[0] + ' — ' + d[1] + '</b><br>' + d[2];
-  if([1, 2, 3, 4, 5].every(n => opened.has(n))) {
-    $('fileInfo').innerHTML += '<br><br><span style="color:#ff72b5">&gt; ALL FLAGGED FILES REVIEWED<br>&gt; INCOMING CALL FROM DIRECTORATE</span>';
-    SoundEngine.play('alarm', 300);
-    setTimeout(() => {
-      $('computer').style.display = 'none';
-      $('phone').style.display = 'flex';
-      SoundEngine.play('beep', 80);
-    }, 900);
-  }
-  saveGame();
-}
-
-function answerPhone() {
-  $('phone').style.display = 'none';
-  $('email').style.display = 'flex';
-  SoundEngine.play('beep', 60);
-}
-
-function enterLab() {
-  $('email').style.display = 'none';
-  scene = 'lab';
-  $('dialogue').style.display = 'block';
-  $('status').textContent = 'PROJECT: REANIMATION';
-  showDialogue(0);
-  saveGame();
-  SoundEngine.play('heartbeat', 200);
-}
-
-function renderLoop() {
-  frame++;
-  if(scene === 'title') {
-    clear('#070609');
-    for(let i = 0; i < 15; i++) {
-      let x = (i * 50 + frame * 0.08) % 320;
-      let y = (i * 35) % 180;
-      rect(x, y, 2, 2, '#8b1f5f');
-    }
-  } else if(scene === 'lab') {
-    drawLabScene();
-  } else if(scene === 'ending') {
-    clear('#0a0410');
-  }
-  requestAnimationFrame(renderLoop);
-}
-
-show($('title'));
-updateNameUI();
-requestAnimationFrame(renderLoop);
-</script>
+<script src="characters.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
