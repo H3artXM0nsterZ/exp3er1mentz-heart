@@ -6,173 +6,76 @@
 <title>Exp3er1mentz H3art</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050207;color:#f7c8df;font-family:"Courier New",monospace}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0a0410;color:#f7c8df;font-family:"Courier New",monospace}
 body{image-rendering:pixelated}
-#wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#050207}
-#game{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:#09050b;overflow:hidden;border:2px solid #321326;box-shadow:0 0 50px #7c1750}
+#wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0410}
+#game{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:#0f0a14;overflow:hidden;border:3px solid #4a1a4a;box-shadow:0 0 60px #d4288f}
 canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
 #ui{position:absolute;inset:0;pointer-events:none}
-#top{position:absolute;top:10px;left:14px;right:14px;display:flex;justify-content:space-between;color:#d36a9c;font-size:12px;text-shadow:0 2px #080308}
-#dialogue{position:absolute;left:4%;right:4%;bottom:4%;min-height:21%;padding:15px 18px;background:rgba(10,5,10,.94);border:2px solid #8e245d;box-shadow:0 0 0 3px #160914,0 0 25px #6b1748;pointer-events:auto}
-#name{color:#ff72b5;font-weight:bold;margin-bottom:8px;letter-spacing:2px}
-#text{color:#f4d9e6;line-height:1.55;font-size:clamp(12px,1.35vw,18px);min-height:48px}
-#continue{position:absolute;right:16px;bottom:10px;color:#ff72b5;font-size:12px}
-#choices{position:absolute;left:12%;right:12%;bottom:24%;display:none;pointer-events:auto}
-.choice{display:block;width:100%;margin:8px 0;padding:12px 16px;background:#170812;border:2px solid #7f2455;color:#f9b9d8;font:inherit;cursor:pointer;text-align:left;box-shadow:4px 4px #070307}
-.choice:hover{background:#41132d;border-color:#ff5aa8}
-#title,#ending,#computer,#email,#phone{position:absolute;inset:0;display:none;pointer-events:auto}
-#title{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  flex-direction:column;
-  background:
-    radial-gradient(circle at 50% 42%,rgba(111,20,72,.28),transparent 30%),
-    radial-gradient(circle,#250d1e 0%,#0e050c 48%,#030204 100%);
-}
-.introCard{
-  position:relative;
-  width:min(760px,90%);
-  min-height:72%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:28px;
-  border:1px solid rgba(199,50,119,.18);
-  background:rgba(8,4,9,.22);
-  box-shadow:0 0 80px rgba(218,31,125,.08);
-}
-.tinyHeart{
-  color:#ff68ae;
-  font-size:15px;
-  margin-bottom:13px;
-  text-shadow:0 0 15px #ff2c8b;
-}
-.logo{
-  font-size:clamp(30px,5.2vw,66px);
-  font-weight:bold;
-  letter-spacing:3px;
-  color:#f47fb5;
-  text-shadow:3px 3px #4a102e,0 0 25px rgba(255,44,139,.45);
-}
-.classified{
-  margin-top:16px;
-  color:#b96691;
-  font-size:clamp(9px,1.15vw,14px);
-  letter-spacing:2px;
-}
-.start{
-  margin-top:34px;
-  padding:12px 30px;
-  min-width:210px;
-  background:#170710;
-  border:1px solid #b92b73;
-  color:#ff9dcc;
-  font:inherit;
-  letter-spacing:1px;
-  cursor:pointer;
-  box-shadow:0 0 15px rgba(220,39,128,.08);
-}
-.start:hover{
-  background:#341027;
-  border-color:#ff5aa5;
-  box-shadow:0 0 24px rgba(255,48,145,.25);
-}
-.agency{
-  margin-top:34px;
-  color:#765164;
-  font-size:9px;
-  letter-spacing:1.2px;
-}
-.statusPanel{
-  margin-top:17px;
-  width:min(510px,95%);
-  padding:9px 12px;
-  border-top:1px solid #291625;
-  border-bottom:1px solid #291625;
-  color:#a86687;
-  font-size:10px;
-  letter-spacing:.7px;
-}
-.statusPanel>span:first-child{color:#ff63a9}
-.statusStable{float:right;color:#7e8a83}
-.subject{
-  margin-top:18px;
-  color:#765568;
-  font-size:10px;
-  letter-spacing:1.5px;
-}
-#systemIntro{
-  margin-top:17px;
-  color:#aa728d;
-  font-size:11px;
-  line-height:1.7;
-}
-#systemIntro b{color:#d77ba5}
-#clickContinue{
-  margin-top:15px;
-  color:#f16aa9;
-  font-size:9px;
-  letter-spacing:1.5px;
-  animation:flicker 1.6s infinite;
-}
-.hearts{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  pointer-events:none;
-}
-.hearts span{
-  position:absolute;
-  color:#ff4c9d;
-  opacity:.32;
-  font-size:12px;
-  text-shadow:0 0 9px #ff197e;
-  animation:floatHeart 6s linear infinite;
-}
-.hearts span:nth-child(1){left:8%;top:15%;animation-delay:0s}
-.hearts span:nth-child(2){left:20%;top:28%;animation-delay:1.1s}
-.hearts span:nth-child(3){left:31%;top:10%;animation-delay:2.3s}
-.hearts span:nth-child(4){left:43%;top:23%;animation-delay:.5s}
-.hearts span:nth-child(5){left:56%;top:12%;animation-delay:3s}
-.hearts span:nth-child(6){left:68%;top:30%;animation-delay:1.8s}
-.hearts span:nth-child(7){left:80%;top:16%;animation-delay:2.8s}
-.hearts span:nth-child(8){left:91%;top:35%;animation-delay:.8s}
-.hearts span:nth-child(9){left:14%;top:63%;animation-delay:2.2s}
-.hearts span:nth-child(10){left:27%;top:76%;animation-delay:.3s}
-.hearts span:nth-child(11){left:74%;top:70%;animation-delay:1.4s}
-.hearts span:nth-child(12){left:88%;top:78%;animation-delay:3.3s}
-@keyframes floatHeart{
-  0%{transform:translateY(12px);opacity:.08}
-  35%{opacity:.34}
-  100%{transform:translateY(-25px);opacity:.08}
-}
-#computer{background:#080b09;padding:5%}
-.monitor{width:92%;height:86%;margin:auto;background:#111;border:8px solid #211b20;box-shadow:0 0 0 2px #54253f,0 0 30px #41142d}
-.bar{height:32px;background:#19151a;padding:8px;color:#c8789d;font-size:11px}
-.screen{height:calc(100% - 32px);padding:18px;background:#07100a;color:#8df0ad;overflow:auto;font-size:12px}
-.files{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-top:15px}
-.file{padding:7px 3px;background:#0c1710;border:1px solid #21452d;color:#83d89d;cursor:pointer;text-align:center;font-size:10px}
-.file:hover,.file.opened{border-color:#e35d9e;color:#ff8fc2;background:#171016}
-.file.special{color:#ff72b5}
-#fileInfo{margin-top:12px;min-height:55px;color:#e69abb;border-top:1px solid #27422e;padding-top:10px}
-#phone{align-items:center;justify-content:center;background:rgba(0,0,0,.55)}
-.phoneBox{padding:25px 35px;background:#130711;border:2px solid #d63782;text-align:center;box-shadow:0 0 30px #94104f}
-.ring{font-size:38px;animation:pulse .7s infinite alternate}
-#email{align-items:center;justify-content:center;background:rgba(0,0,0,.58)}
-.mail{width:min(620px,88%);background:#130b12;border:2px solid #e34a94;padding:25px;box-shadow:0 0 35px #77123f}
-.mail h2{color:#ff72b5;margin-top:0}
-.mail p{line-height:1.7;color:#e5c4d4}
-.mail .warning{color:#ff5a9e}
-#ending{align-items:center;justify-content:center;text-align:center;flex-direction:column;background:radial-gradient(circle,#321025,#050205 65%)}
-#ending h1{color:#ff6eb1;font-size:clamp(28px,5vw,60px)}
-#ending p{width:min(700px,85%);line-height:1.7;color:#d5b5c7}
-@keyframes pulse{to{transform:scale(1.08);filter:brightness(1.5)}}
-@keyframes flicker{0%,100%{opacity:1}48%{opacity:.92}50%{opacity:.78}52%{opacity:1}}
-.flicker{animation:flicker 4s infinite}
-@media(max-width:700px){.files{grid-template-columns:repeat(5,1fr)}.screen{font-size:10px}.file{font-size:8px}.dialogue{font-size:11px}}
+#top{position:absolute;top:15px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:center;color:#ff72b5;font-size:13px;text-shadow:0 0 10px #8b1f5f,0 2px #030206;z-index:100}
+#soundToggle,#saveToggle{background:rgba(40,10,40,.8);border:1px solid #d4288f;color:#ff72b5;padding:6px 10px;cursor:pointer;font-size:11px;margin-left:8px;transition:.15s}
+#soundToggle:hover,#saveToggle:hover{background:rgba(80,20,60,.9);border-color:#ff72b5}
+#characterDisplay{position:absolute;left:3%;bottom:28%;width:110px;height:140px;background:rgba(15,5,20,.85);border:2px solid #d4288f;box-shadow:0 0 15px #8b1f5f;display:flex;align-items:center;justify-content:center;color:#ff72b5;font-size:10px;text-align:center;padding:8px;pointer-events:none}
+#characterDisplayCanvas{width:100%;height:100%;image-rendering:pixelated;display:none}
+#dialogue{position:absolute;left:3%;right:3%;bottom:2%;min-height:26%;padding:16px 18px;background:rgba(15,5,20,.94);border:2px solid #d4288f;box-shadow:0 0 0 3px #2a0a35,0 0 40px #8b1f5f;pointer-events:auto;backdrop-filter:blur(1px);overflow-y:auto;max-height:28%}
+#name{color:#ff72b5;font-weight:bold;margin-bottom:6px;letter-spacing:1px;font-size:12px}
+#text{color:#f4d9e6;line-height:1.65;font-size:clamp(11px,1.1vw,15px);min-height:55px;word-wrap:break-word}
+#continue{position:absolute;right:14px;bottom:8px;color:#ff72b5;font-size:10px;animation:pulse 1s infinite;pointer-events:none}
+#choices{position:absolute;left:4%;right:4%;bottom:calc(28% + 10px);display:none;pointer-events:auto;max-height:20%;overflow-y:auto}
+.choice{display:block;width:100%;margin:6px 0;padding:10px 12px;background:linear-gradient(90deg,rgba(40,10,40,.9),rgba(60,20,50,.9));border:2px solid #d4288f;color:#f9b9d8;font:inherit;cursor:pointer;text-align:left;box-shadow:3px 3px rgba(0,0,0,.5);transition:.1s}
+.choice:hover{background:linear-gradient(90deg,rgba(80,30,70,.95),rgba(100,40,80,.95));border-color:#ff72b5;box-shadow:4px 4px rgba(212,40,143,.3)}
+.choice:active{transform:translate(1px,1px);box-shadow:1px 1px rgba(0,0,0,.5)}
+#title,#ending,#computer,#email,#phone,#saveMenu,#gameOverOverlay{position:absolute;inset:0;display:none;pointer-events:auto;z-index:500}
+#title{display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 40%,rgba(150,20,100,.2),transparent 40%),linear-gradient(135deg,#0a0410 0%,#1a0a20 50%,#0f0614 100%);backdrop-filter:blur(2px)}
+.introCard{position:relative;width:min(720px,88%);padding:35px 40px;border:2px solid #d4288f;background:rgba(20,8,25,.92);box-shadow:0 0 80px rgba(212,40,143,.15),inset 0 0 30px rgba(212,40,143,.05);text-align:center}
+.logo{font-size:clamp(32px,6vw,68px);font-weight:bold;letter-spacing:4px;color:#ff72b5;text-shadow:4px 4px #4a1a4a,0 0 30px #d4288f;margin-bottom:12px}
+.subtitle{color:#b85a9c;font-size:clamp(10px,1.2vw,14px);letter-spacing:2px;margin-bottom:20px}
+.storyPreview{color:#e5c4d4;font-size:clamp(10px,1.1vw,13px);line-height:1.8;margin:20px 0;text-align:left;max-height:200px;overflow-y:auto}
+.storyPreview b{color:#ff72b5}
+.start{margin-top:25px;padding:12px 32px;min-width:200px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#ff9dcc;font:inherit;letter-spacing:1px;cursor:pointer;box-shadow:0 0 20px rgba(212,40,143,.15);transition:.2s}
+.start:hover{background:rgba(80,20,60,.95);border-color:#ff72b5;box-shadow:0 0 30px rgba(212,40,143,.35)}
+.agency{margin-top:15px;color:#8a5a8f;font-size:9px;letter-spacing:1.2px}
+#computer{background:#0a050f;padding:4%}
+.monitor{width:94%;height:88%;margin:auto;background:#000;border:10px solid #2a1a2a;box-shadow:0 0 0 2px #8b1f5f,0 0 40px #8b1f5f}
+.bar{height:32px;background:#1a0a20;padding:8px;color:#d4288f;font-size:11px;border-bottom:1px solid #4a1a4a}
+.screen{height:calc(100% - 32px);padding:16px;background:#050208;color:#a8ff6e;overflow:auto;font-size:12px;line-height:1.6}
+.files{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:15px}
+.file{padding:6px 2px;background:#0a0f08;border:1px solid #2a4a2a;color:#7ae68c;cursor:pointer;text-align:center;font-size:9px;transition:.1s}
+.file:hover{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15}
+.file.opened{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15}
+.file.special{color:#ff72b5;text-shadow:0 0 6px #ff2c8b}
+#fileInfo{margin-top:12px;min-height:50px;color:#e69abb;border-top:1px solid #2a4a2a;padding-top:10px}
+#phone{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
+.phoneBox{padding:30px 40px;background:rgba(20,8,25,.95);border:2px solid #d4288f;text-align:center;box-shadow:0 0 40px #8b1f5f}
+.ring{font-size:48px;animation:pulse .6s infinite alternate}
+#email{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
+.mail{width:min(600px,86%);background:rgba(20,8,25,.95);border:2px solid #d4288f;padding:28px;box-shadow:0 0 40px #8b1f5f}
+.mail h2{color:#ff72b5;margin-top:0;font-size:16px}
+.mail p{line-height:1.7;color:#e5c4d4;font-size:12px}
+.mail .warning{color:#ff5a9e;font-weight:bold}
+#ending{align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle,#3a1a35,#0a0410 70%)}
+#ending h1{color:#ff6eb1;font-size:clamp(28px,5vw,58px);margin:0 0 20px 0;text-shadow:2px 2px #4a1a4a}
+#ending p{width:min(700px,85%);line-height:1.8;color:#d5b5c7;margin-bottom:30px;font-size:clamp(11px,1.1vw,14px)}
+#ending .buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+#gameOverOverlay{display:none;background:rgba(0,0,0,.9);align-items:center;justify-content:center}
+.gameOverBox{background:rgba(20,8,25,.95);border:3px solid #ff2c8b;padding:40px;text-align:center;box-shadow:0 0 50px #ff2c8b}
+.gameOverBox h1{color:#ff2c8b;font-size:32px;margin:0 0 15px 0}
+.gameOverBox p{color:#e5c4d4;line-height:1.7;margin-bottom:25px}
+#saveMenu{align-items:center;justify-content:center;background:rgba(0,0,0,.85)}
+.savePanel{background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:30px;width:min(520px,90%);box-shadow:0 0 50px #8b1f5f;max-height:80vh;overflow-y:auto}
+.savePanel h2{color:#ff72b5;margin-top:0;margin-bottom:20px}
+.saveSlot{background:rgba(40,15,45,.7);border:1px solid #8b1f5f;padding:12px;margin:8px 0;cursor:pointer;text-align:left;color:#e69abb;transition:.15s}
+.saveSlot:hover{background:rgba(60,25,65,.9);border-color:#ff72b5}
+.saveSlot.filled{border-color:#ff72b5}
+.saveSlot.filled::before{content:'✓ ';color:#ff72b5}
+.saveClose{position:absolute;top:15px;right:15px;background:rgba(40,10,40,.8);border:1px solid #d4288f;color:#d4288f;padding:8px 12px;cursor:pointer;font-size:12px}
+.saveClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes glitch{0%{transform:translateX(0)}25%{transform:translateX(-2px)}50%{transform:translateX(2px)}75%{transform:translateX(-1px)}100%{transform:translateX(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.glitch{animation:glitch .2s}
+.shake{animation:shake .4s}
+@media(max-width:800px){.monitor{border:6px solid #2a1a2a}.files{grid-template-columns:repeat(6,1fr)}.screen{font-size:10px}}
 </style>
 </head>
 <body>
@@ -180,50 +83,29 @@ canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
 <canvas id="c" width="320" height="180"></canvas>
 
 <div id="title">
-  <div class="hearts" aria-hidden="true">
-    <span>♥</span><span>♥</span><span>♥</span><span>♥</span>
-    <span>♥</span><span>♥</span><span>♥</span><span>♥</span>
-    <span>♥</span><span>♥</span><span>♥</span><span>♥</span>
-  </div>
-
   <div class="introCard">
-    <div class="tinyHeart">♥</div>
-
     <div class="logo">Exp3er1mentz H3art</div>
-
-    <div class="classified">CLASSIFIED EXPERIMENT // FILE 001</div>
-
-    <button id="beginButton" class="start" onclick="beginIntro()">
-      BEGIN EXPERIMENT
-    </button>
-
-    <div class="agency">PROPERTY OF THE AGENCY. UNAUTHORIZED ACCESS IS PROHIBITED.</div>
-
-    <div class="statusPanel">
-      <span>█</span> LABORATORY 07
-      <span class="statusStable">EXPERIMENT STATUS: STABLE</span>
+    <div class="subtitle">A CLASSIFIED EXPERIMENT</div>
+    <div class="storyPreview">
+      <b>You are a scientist.</b> For years, you've conducted safe, ethical experiments. Boring experiments. Then one day, the Directorate offers you something different. Something <b>interesting.</b><br><br>
+      <b>Human reanimation.</b> Bringing the dead back to life. Corpse after corpse, failure after failure—until one day, a body arrives that changes everything. Beautiful. Perfect. And when they wake up, when they look into your eyes... <b>you become obsessed.</b><br><br>
+      <b>But you're not the only one watching.</b>
     </div>
-
-    <div class="subject">SUBJECT: 001</div>
-
-    <div id="systemIntro">
-      <b>SYSTEM</b><br>
-      Initializing experiment...
-    </div>
-
-    <div id="clickContinue">CLICK TO CONTINUE</div>
+    <button class="start" onclick="startGame()">BEGIN EXPERIMENT</button>
+    <div class="agency">⚠ CLASSIFIED MATERIAL — UNAUTHORIZED ACCESS IS PROHIBITED ⚠</div>
   </div>
 </div>
 
 <div id="computer">
   <div class="monitor">
-    <div class="bar">● ● ● &nbsp; CLASSIFIED TERMINAL // SCIENTIST_07</div>
+    <div class="bar">🔓 SECURE TERMINAL | SCIENTIST_07 | CLASSIFIED DATABASE</div>
     <div class="screen">
-      <div>&gt; SECURE CONNECTION ESTABLISHED</div>
-      <div>&gt; DATABASE: GOVERNMENT RESEARCH ARCHIVE</div>
-      <div>&gt; 50 FILES FOUND — OPEN THE FIVE FLAGGED FILES</div>
+      <div>&gt; CONNECTION ESTABLISHED</div>
+      <div>&gt; ACCESSING: GOVERNMENT RESEARCH ARCHIVE</div>
+      <div>&gt; STATUS: 50 FILES FOUND</div>
+      <div>&gt; OBJECTIVE: REVIEW THE FIVE FLAGGED EXPERIMENT FILES</div>
       <div class="files" id="files"></div>
-      <div id="fileInfo">Select an experiment file.</div>
+      <div id="fileInfo">Select an experiment file to review.</div>
     </div>
   </div>
 </div>
@@ -231,29 +113,52 @@ canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
 <div id="phone">
   <div class="phoneBox">
     <div class="ring">☎</div>
-    <div style="color:#ff79b8;font-size:20px;margin:12px">INCOMING CALL</div>
-    <div>DIRECTORATE // SECURE LINE</div>
-    <button class="start" onclick="answerPhone()">ANSWER</button>
+    <div style="color:#ff79b8;font-size:18px;margin:15px;font-weight:bold">INCOMING CALL</div>
+    <div style="color:#e5c4d4">DIRECTORATE // SECURE LINE</div>
+    <button class="start" onclick="answerPhone()" style="margin-top:20px">ANSWER</button>
   </div>
 </div>
 
 <div id="email">
   <div class="mail">
     <h2>✉ NEW CLASSIFIED ASSIGNMENT</h2>
-    <p><b>FROM:</b> DIRECTORATE</p>
-    <p><b>SUBJECT:</b> SPECIAL PROJECT — LABORATORY 07</p>
-    <p>Your previous work has been reviewed. You have been selected for a project requiring complete confidentiality.</p>
-    <p>No assistants. No records. No questions.</p>
-    <p class="warning">PROJECT TYPE: HUMAN REANIMATION RESEARCH</p>
-    <p>Proceed to Laboratory 07 immediately.</p>
-    <button class="start" onclick="enterLab()">ACCEPT ASSIGNMENT</button>
+    <p><b>FROM:</b> DIRECTORATE<br><b>SUBJECT:</b> PROJECT REANIMATION — IMMEDIATE DEPLOYMENT</p>
+    <p>Your credentials have been reviewed. You have been selected for a project of the highest confidentiality. This assignment requires your discretion and your expertise. Nothing else matters.</p>
+    <p><b>SCOPE:</b> Human consciousness reanimation via cadaver experimentation.</p>
+    <p class="warning">⚠ PROJECT CLASSIFICATION: LEVEL 9 (BLACK)<br>⚠ ALL SUBJECTS: LEGALLY CLASSIFIED AS DISPOSABLE<br>⚠ ETHICAL OVERSIGHT: SUSPENDED</p>
+    <p>Proceed to Laboratory 07 immediately. Complete silence is required. Speak of this to no one.</p>
+    <button class="start" onclick="enterLab()" style="margin-top:20px">ACCEPT ASSIGNMENT</button>
+  </div>
+</div>
+
+<div id="saveMenu">
+  <button class="saveClose" onclick="closeSaveMenu()">✕</button>
+  <div class="savePanel">
+    <h2>SAVE / LOAD GAME</h2>
+    <div id="saveSlots"></div>
+    <button class="start" style="width:100%;margin-top:15px" onclick="closeSaveMenu()">CLOSE MENU</button>
+  </div>
+</div>
+
+<div id="gameOverOverlay">
+  <div class="gameOverBox">
+    <h1>GAME OVER</h1>
+    <p id="gameOverText"></p>
+    <button class="start" onclick="location.reload()">RESTART</button>
   </div>
 </div>
 
 <div id="ui">
-  <div id="top"><span>LAB-07 // CLASSIFIED</span><span id="status"></span></div>
+  <div id="top">
+    <span>LABORATORY 07 // CLASSIFIED EXPERIMENT</span>
+    <span id="status"></span>
+    <button id="soundToggle" onclick="toggleSound()">🔊 ON</button>
+    <button id="saveToggle" onclick="openSaveMenu()">💾 SAVE</button>
+  </div>
+  <canvas id="characterDisplayCanvas" width="110" height="140"></canvas>
+  <div id="characterDisplay"></div>
   <div id="dialogue">
-    <div id="name"></div><div id="text"></div><div id="continue">▼ CLICK</div>
+    <div id="name"></div><div id="text"></div><div id="continue">▼ CLICK TO CONTINUE</div>
   </div>
   <div id="choices"></div>
 </div>
@@ -261,312 +166,575 @@ canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
 <div id="ending">
   <h1 id="endingTitle"></h1>
   <p id="endingText"></p>
-  <button class="start" onclick="location.reload()">RESTART</button>
+  <div class="buttons">
+    <button class="start" onclick="location.reload()">RESTART GAME</button>
+    <button class="start" onclick="openSaveMenu()">LOAD SAVE</button>
+  </div>
 </div>
 </div></div>
 
 <script>
-const cv=document.getElementById("c"),ctx=cv.getContext("2d");
-ctx.imageSmoothingEnabled=false;
-const W=320,H=180;
-let scene="title", frame=0, opened=new Set(), current=0, typing=false, timer=null;
-let path="", trust=0, alive=true;
-
-const $=id=>document.getElementById(id);
-const title=$("title"), computer=$("computer"), phone=$("phone"), email=$("email");
-const dialogue=$("dialogue"), choices=$("choices"), nameEl=$("name"), textEl=$("text");
-
-function show(x){x.style.display="flex"} function hide(x){x.style.display="none"}
-function rect(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))}
-function px(x,y,c){rect(x,y,1,1,c)}
-function line(x,y,w,c){rect(x,y,w,1,c)}
-function text(t,x,y,c="#f5c8dd",size=8){ctx.fillStyle=c;ctx.font=size+"px monospace";ctx.fillText(t,x,y)}
-
-function clear(c="#08050a"){ctx.fillStyle=c;ctx.fillRect(0,0,W,H)}
-
-function drawBackground(){
-  clear("#09060b");
-  // wall panels
-  for(let x=0;x<W;x+=32){rect(x,18,31,102,x%64?"#100d13":"#130e15");line(x,119,31,"#261525")}
-  for(let x=0;x<W;x+=64)rect(x,0,2,120,"#211322");
-  // pink lab lights
-  for(let x of [32,138,250]){rect(x,9,38,2,"#ff438f");rect(x-4,11,46,1,"#6e1746")}
-  // floor
-  rect(0,120,W,60,"#080609");
-  for(let x=0;x<W;x+=32){line(x,120,60,"#1c121b");line(x+16,135,1,"#1b1119");}
-  for(let y=136;y<180;y+=16)line(0,y,W,"#160e16");
+// ===== AUDIO SYNTHESIS =====
+class SoundEngine {
+  static play(type, duration=80) {
+    if(!soundEnabled) return;
+    try {
+      const ac = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ac.createOscillator();
+      const gain = ac.createGain();
+      osc.connect(gain);
+      gain.connect(ac.destination);
+      
+      const freqs = {
+        'beep': 1200, 'click': 800, 'error': 300, 'heartbeat': 150, 'alarm': 900, 'pain': 400, 'success': 1600
+      };
+      const vols = {
+        'beep': .04, 'click': .03, 'error': .06, 'heartbeat': .05, 'alarm': .07, 'pain': .05, 'success': .04
+      };
+      
+      osc.frequency.value = freqs[type] || 1200;
+      gain.gain.value = vols[type] || .04;
+      osc.start(ac.currentTime);
+      osc.stop(ac.currentTime + duration/1000);
+    } catch(e) {}
+  }
 }
 
-function drawBed(){
-  rect(66,93,190,12,"#242027");rect(71,88,180,14,"#ded9dc");
-  rect(75,90,172,10,"#f1ecef");rect(67,105,7,35,"#27232a");rect(248,105,7,35,"#27232a");
-  rect(58,87,10,7,"#2b2630");rect(250,87,10,7,"#2b2630");
-  // restraints
-  rect(102,91,12,3,"#5e4052");rect(205,91,12,3,"#5e4052");
+let soundEnabled = true;
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundToggle').textContent = soundEnabled ? '🔊 ON' : '🔇 OFF';
+  SoundEngine.play('beep', 60);
 }
 
-function pixelHair(x,y,style="#171019"){
-  // detailed curly pixel silhouette
-  const blobs=[[0,5,12,15],[8,0,14,13],[20,2,15,14],[33,0,14,15],[45,5,14,16],[52,14,12,17],[1,17,12,15],[9,25,13,13],[43,26,13,13]];
-  blobs.forEach(b=>rect(x+b[0],y+b[1],b[2],b[3],style));
-  // highlights
-  rect(x+11,y+3,7,2,"#39222f");rect(x+31,y+2,7,2,"#39222f");rect(x+48,y+11,4,2,"#39222f");
+// ===== SAVE SYSTEM =====
+const saves = JSON.parse(localStorage.getItem('exp3Saves') || '{}');
+function saveGame() {
+  const s = { scene, current, path, obsession, opened: Array.from(opened), timestamp: new Date().toLocaleString() };
+  saves['auto'] = s;
+  localStorage.setItem('exp3Saves', JSON.stringify(saves));
+}
+function loadGame(key) {
+  const s = saves[key];
+  if(!s) return;
+  scene = s.scene; current = s.current; path = s.path; obsession = s.obsession; opened = new Set(s.opened);
+  closeSaveMenu();
+  if(scene === 'title') location.reload();
+  else if(scene === 'computer') { hide($('title')); $('computer').style.display='block'; buildFiles(); $('status').textContent='ANALYZING FILES'; }
+  else if(scene === 'lab') { $('email').style.display='none'; scene='lab'; $('dialogue').style.display='block'; showDialogue(current); }
+  SoundEngine.play('beep', 80);
+}
+function openSaveMenu() {
+  SoundEngine.play('beep', 60);
+  $('saveMenu').style.display='flex';
+  const slots = $('saveSlots');
+  slots.innerHTML = '';
+  for(let i=1;i<=5;i++) {
+    const s = document.createElement('div');
+    s.className = 'saveSlot' + (saves['slot'+i] ? ' filled' : '');
+    s.innerHTML = saves['slot'+i] ? `<b>SAVE ${i}</b><br><small>${saves['slot'+i].timestamp}</small><br>Obsession: ${saves['slot'+i].obsession}% | Stage: ${saves['slot'+i].path||'EARLY'}` : `<b>SAVE ${i}</b><br><small>EMPTY</small>`;
+    s.onclick = () => { if(saves['slot'+i]) loadGame('slot'+i); else { saves['slot'+i] = saves['auto']; localStorage.setItem('exp3Saves', JSON.stringify(saves)); location.reload(); } };
+    slots.appendChild(s);
+  }
+}
+function closeSaveMenu() { $('saveMenu').style.display='none'; }
+
+// ===== PIXEL ART RENDERING =====
+function drawPixelCharacter(canvas, type) {
+  const ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = '#0a0410';
+  ctx.fillRect(0, 0, 110, 140);
+  
+  function px(x, y, sx, sy, c) {
+    ctx.fillStyle = c;
+    ctx.fillRect(x, y, sx, sy);
+  }
+  
+  if(type === 'scientist') {
+    // hair
+    px(32, 0, 42, 14, '#0a0a0a');
+    px(28, 14, 50, 10, '#0a0a0a');
+    px(40, 24, 26, 6, '#c9906f');
+    // face
+    px(35, 28, 34, 28, '#c9906f');
+    // eyes
+    px(42, 38, 6, 4, '#2a2a2a');
+    px(58, 38, 6, 4, '#2a2a2a');
+    px(44, 40, 4, 2, '#000');
+    px(60, 40, 4, 2, '#000');
+    // hoodie / jacket
+    px(28, 52, 50, 38, '#1a1a20');
+    px(30, 56, 8, 30, '#0a0a0a');
+    px(68, 56, 8, 30, '#0a0a0a');
+    px(40, 58, 24, 18, '#415868');
+    // pants
+    px(34, 92, 16, 28, '#4c5e69');
+    px(56, 92, 16, 28, '#4c5e69');
+    // shoes
+    px(28, 120, 20, 10, '#a09a9a');
+    px(58, 120, 20, 10, '#a09a9a');
+  } else if(type === 'subject') {
+    // curly hair
+    px(30, 0, 52, 16, '#1a0a0a');
+    px(24, 12, 18, 8, '#1a0a0a');
+    px(66, 12, 18, 8, '#1a0a0a');
+    px(38, 22, 30, 8, '#b8926a');
+    // face
+    px(34, 26, 38, 30, '#b8926a');
+    // eyes
+    px(42, 38, 6, 4, '#3f586c');
+    px(58, 38, 6, 4, '#3f586c');
+    px(44, 40, 4, 2, '#000');
+    px(60, 40, 4, 2, '#000');
+    // stitches
+    px(36, 50, 10, 2, '#5a3a3a');
+    px(48, 48, 2, 6, '#c74a4a');
+    px(58, 50, 10, 2, '#5a3a3a');
+    px(54, 48, 2, 6, '#c74a4a');
+    px(44, 58, 18, 12, '#1a1a2a');
+    px(30, 58, 12, 18, '#0a0a0a');
+    px(64, 58, 12, 18, '#0a0a0a');
+    // body
+    px(26, 68, 56, 22, '#1a1a20');
+    // pants
+    px(34, 92, 14, 24, '#2a5a6a');
+    px(58, 92, 14, 24, '#2a5a6a');
+    // shoes
+    px(26, 120, 20, 10, '#d9d9d9');
+    px(60, 120, 20, 10, '#d9d9d9');
+  } else if(type === 'doctor') {
+    // hair
+    px(32, 0, 42, 14, '#5a3a4a');
+    px(28, 12, 50, 10, '#4a2a3a');
+    // face
+    px(35, 28, 34, 28, '#c9906f');
+    // eyes
+    px(42, 38, 6, 4, '#6a7a8a');
+    px(58, 38, 6, 4, '#6a7a8a');
+    px(44, 40, 4, 2, '#2a2a2a');
+    px(60, 40, 4, 2, '#2a2a2a');
+    // coat
+    px(26, 54, 54, 28, '#e8e8e8');
+    px(32, 60, 40, 18, '#d9d9d9');
+    // pants
+    px(34, 92, 14, 24, '#4a4a5a');
+    px(58, 92, 14, 24, '#4a4a5a');
+    // shoes
+    px(28, 120, 20, 10, '#5a5a5a');
+    px(58, 120, 20, 10, '#5a5a5a');
+  }
 }
 
-function drawCharacter(type,x,y,scale=1,pose="stand"){
-  ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
-  if(type==="experiment") drawExperiment();
-  else if(type==="scientist") drawScientist();
-  else drawDoctor();
-  ctx.restore();
+// ===== MAIN GAME STATE =====
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+ctx.imageSmoothingEnabled = false;
+const W = 320, H = 180;
+let scene = 'title', frame = 0, opened = new Set(), current = 0, typing = false, timer = null;
+let path = '', obsession = 0;
+
+const $ = id => document.getElementById(id);
+function hide(x) { x.style.display = 'none'; }
+function show(x) { x.style.display = 'flex'; }
+function rect(x, y, w, h, c) { ctx.fillStyle = c; ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); }
+function line(x, y, w, c) { rect(x, y, w, 1, c); }
+function clear(c = '#0a0410') { ctx.fillStyle = c; ctx.fillRect(0, 0, W, H); }
+
+function drawLabScene() {
+  clear('#0f0a14');
+  for(let x = 0; x < W; x += 32) {
+    rect(x, 20, 31, 90, x % 64 ? '#0a050c' : '#120a15');
+    line(x, 110, 31, '#3a1a3a');
+  }
+  for(let x = 0; x < W; x += 64) rect(x, 0, 2, 110, '#2a1a2a');
+  for(let x of [40, 140, 250]) {
+    rect(x, 10, 40, 3, '#ff72b5');
+    rect(x - 4, 13, 48, 1, '#8b1f5f');
+  }
+  rect(0, 110, W, 70, '#050209');
+  for(let x = 0; x < W; x += 32) {
+    line(x, 110, 50, '#1a0a1a');
+    line(x + 16, 125, 1, '#0a050a');
+  }
+  for(let y = 130; y < 180; y += 16) line(0, y, W, '#0a050a');
+  rect(70, 75, 180, 15, '#2a2a2a');
+  rect(75, 72, 170, 18, '#e8e8e8');
+  rect(80, 74, 160, 14, '#f0f0f0');
+  rect(95, 75, 4, 20, '#a8a8a8');
+  rect(245, 75, 4, 20, '#a8a8a8');
+  // subject on bed (pixel figure)
+  const canvas = document.getElementById('characterDisplayCanvas');
+  const ctx2 = canvas.getContext('2d');
+  ctx2.clearRect(0, 0, canvas.width, canvas.height);
+  drawPixelCharacter(canvas, 'subject');
+  ctx.drawImage(canvas, 110, 40, 80, 100);
+  rect(10, 45, 40, 70, '#0a050a');
+  rect(15, 50, 30, 60, '#1a0a20');
+  rect(20, 55, 20, 4, '#6a1a6a');
+  rect(270, 60, 25, 4, '#4a4a4a');
+  rect(275, 65, 4, 40, '#2a2a2a');
+  rect(288, 65, 4, 40, '#2a2a2a');
+  rect(271, 48, 24, 14, '#1a0a1a');
+  rect(275, 52, 18, 6, '#3a0a3a');
+  rect(278, 54, 4, 2, '#ff72b5');
+  for(let i = 0; i < 3; i++) {
+    rect(275 + i * 6, 110, 3, 15, '#d0a8d0');
+    rect(275 + i * 6, 120, 3, 4, '#8b1f5f');
+  }
 }
 
-function skinFace(skin="#75472f"){
-  rect(25,8,36,34,skin);rect(20,16,5,17,skin);rect(61,17,5,15,skin);
-  rect(29,6,28,4,skin);rect(28,40,29,3,"#5a3028");
+// ===== FILE DATA =====
+const filesData = [
+  ['NUCLEAR-01', 'WEAPONS RESEARCH', '47 subjects terminated. No survivors. Full incineration protocol completed.'],
+  ['REANIMATE-02A', 'PHASE 1 TRIAL', '34 reanimation failures. Tissue decay accelerated. Consciousness matrix: NULL.'],
+  ['DISPOSAL-03', 'TERMINATION PROTOCOL', 'Mandatory: All failed subjects must be permanently eliminated. Zero evidence.'],
+  ['REANIMATE-04B', 'PHASE 2 TRIAL', 'Success rate: 0.2%. Subject 001 shows anomalous cognitive response. CONTAINMENT CRITICAL.'],
+  ['CONSCIOUSNESS-05', 'IDENTITY INTEGRITY', 'WARNING: Subject 001 retains full memory recall. Subject is AWARE. Recommend immediate deletion.']
+];
+
+const lines = [
+  ['SCIENTIST', 'Another one. How many have I brought back to nothing?'],
+  ['SCIENTIST', 'Consciousness vectors... scattered. No coherence. No awareness. Just meat.'],
+  ['SCIENTIST', 'I shouldn\'t even be here. I should be home.'],
+  ['SYSTEM', 'The monitor pulses. A heartbeat. Then another.'],
+  ['SCIENTIST', '...What?'],
+  ['SUBJECT', '...'],
+  ['SCIENTIST', 'Can you hear me?'],
+  ['SUBJECT', 'Everything... hurts. Where... am I?'],
+  ['SCIENTIST', 'You\'re alive. I brought you back.'],
+  ['SUBJECT', 'Back... from what? Who are you?'],
+  ['SCIENTIST', 'I\'m... the one who saved you.'],
+  ['SUBJECT', 'I don\'t remember... anything. No name. No face. Nothing. Who was I?'],
+  ['SCIENTIST', 'Maybe you don\'t need to know. Maybe you can just... be. Here. With me.'],
+  ['SYSTEM', 'Footsteps in the hallway. Hard and deliberate.'],
+  ['DOCTOR', 'SCIENTIST. Open this door. Now.'],
+  ['SCIENTIST', 'There are complications with the subject. I\'m still running diagnostics.'],
+  ['DOCTOR', 'Step aside. I\'m coming in.'],
+  ['SCIENTIST', 'Please. The subject is unstable. If you move them, they\'ll die again. You know that.'],
+  ['DOCTOR', '... Thirty minutes. Then you bring the subject to me. Or I come back with authorization.'],
+  ['SYSTEM', 'The door closes. The lock clicks. The footsteps fade.'],
+  ['SUBJECT', 'What did they want?'],
+  ['SCIENTIST', 'To take you away. To cut you open. To study what makes you different.'],
+  ['SUBJECT', 'Why did you stop them?'],
+  ['SCIENTIST', 'Because... you\'re mine. You\'re the only thing I\'ve ever created that\'s real.'],
+  ['SUBJECT', 'I\'m scared.'],
+  ['SCIENTIST', 'I know. But I won\'t let them hurt you. Not as long as I\'m alive.'],
+];
+
+function showDialogue(i) {
+  if(i >= lines.length) return;
+  current = i;
+  typing = true;
+  $('name').textContent = lines[i][0];
+  $('text').textContent = '';
+  clearInterval(timer);
+  let s = lines[i][1], n = 0;
+  timer = setInterval(() => {
+    $('text').textContent += s[n++];
+    if(n >= s.length) {
+      clearInterval(timer);
+      typing = false;
+      SoundEngine.play('click', 30);
+    }
+  }, 30);
+  updateCharDisplay();
 }
 
-function eyes(color="#080509"){
-  rect(32,23,6,4,"#f0d8dc");rect(51,23,6,4,"#f0d8dc");
-  rect(34,24,3,3,color);rect(52,24,3,3,color);
-  rect(41,31,8,2,"#4b202a");
+function updateCharDisplay() {
+  const speaker = lines[current][0];
+  const charCanvas = document.getElementById('characterDisplayCanvas');
+  const display = $('characterDisplay');
+  
+  if(speaker === 'SCIENTIST') {
+    charCanvas.style.display = 'block';
+    display.textContent = '';
+    drawPixelCharacter(charCanvas, 'scientist');
+  } else if(speaker === 'SUBJECT') {
+    charCanvas.style.display = 'block';
+    display.textContent = '';
+    drawPixelCharacter(charCanvas, 'subject');
+    obsession = Math.min(100, obsession + 2);
+  } else if(speaker === 'DOCTOR') {
+    charCanvas.style.display = 'block';
+    display.textContent = '';
+    drawPixelCharacter(charCanvas, 'doctor');
+  } else {
+    charCanvas.style.display = 'none';
+    display.textContent = speaker === 'SYSTEM' ? '⚠ SYSTEM' : '';
+  }
 }
 
-function drawExperiment(){
-  // shadow
-  rect(24,155,46,4,"#050305");
-  // legs
-  rect(31,119,15,38,"#141116");rect(49,119,15,38,"#141116");
-  rect(30,153,18,4,"#eee7eb");rect(48,153,18,4,"#eee7eb");
-  // body / hoodie
-  rect(23,67,43,57,"#0a0a0d");rect(17,72,9,45,"#101015");rect(64,72,9,45,"#101015");
-  // hoodie highlights
-  rect(25,69,3,43,"#24222b");rect(62,70,3,43,"#24222b");rect(43,68,3,47,"#17151b");
-  // face
-  skinFace("#75462f");pixelHair(18,1,"#141017");eyes("#050308");
-  // stitches
-  line(32,43,13,"#421927");line(39,42,2,"#b75a75");line(31,47,13,"#421927");
-  line(25,78,12,"#6b263a");line(29,76,2,"#d26a83");line(51,91,12,"#6b263a");
-  line(35,111,13,"#6b263a");line(39,109,2,"#d26a83");
-  // chain
-  rect(11,94,8,3,"#80616f");rect(4,94,7,3,"#4d3a44");rect(72,94,8,3,"#80616f");
+function next() {
+  if(typing) {
+    clearInterval(timer);
+    $('text').textContent = lines[current][1];
+    typing = false;
+    SoundEngine.play('beep', 30);
+    return;
+  }
+  if(current < lines.length - 1) {
+    showDialogue(current + 1);
+    SoundEngine.play('click', 40);
+    return;
+  }
+  showFirstChoice();
 }
 
-function drawScientist(){
-  // scientist: black hair, black eyes, dark clothes
-  rect(29,153,13,4,"#080609");rect(48,153,13,4,"#080609");
-  rect(30,116,13,40,"#151018");rect(48,116,13,40,"#151018");
-  rect(22,65,48,58,"#18131c");rect(15,71,9,47,"#241722");rect(68,71,9,47,"#241722");
-  rect(25,68,5,48,"#38202e");rect(63,69,5,47,"#38202e");
-  skinFace("#75472f");pixelHair(17,0,"#08070b");eyes("#020205");
-  rect(40,32,10,2,"#32151f");
-  // ID badge
-  rect(54,75,10,13,"#e7d9de");rect(56,77,6,3,"#b72c70");
-  // gloves
-  rect(11,112,11,7,"#d8cbd0");rect(68,112,11,7,"#d8cbd0");
+$('dialogue').onclick = next;
+
+function showFirstChoice() {
+  $('dialogue').style.display = 'none';
+  $('choices').style.display = 'block';
+  $('choices').innerHTML = '';
+  addChoice('Comfort them gently. They\'re confused and scared.', () => {
+    obsession += 10;
+    path = 'compassionate';
+    nextScene();
+    SoundEngine.play('heartbeat', 60);
+  });
+  addChoice('Tell them they must stay hidden. Survival comes first.', () => {
+    obsession += 5;
+    path = 'pragmatic';
+    nextScene();
+    SoundEngine.play('beep', 60);
+  });
+  addChoice('Leave them alone. You have work to finish.', () => {
+    path = 'cold';
+    nextScene();
+    SoundEngine.play('error', 60);
+  });
 }
 
-function drawDoctor(){
-  rect(30,153,13,4,"#dce0e5");rect(49,153,13,4,"#dce0e5");
-  rect(30,116,14,40,"#d8dce2");rect(48,116,14,40,"#d8dce2");
-  rect(21,65,51,58,"#d9e0e8");rect(14,72,10,47,"#becbd9");rect(69,72,10,47,"#becbd9");
-  // coat shadows
-  rect(24,68,5,49,"#9faec1");rect(65,68,5,49,"#9faec1");rect(44,70,3,48,"#7c8ea5");
-  skinFace("#8a593d");pixelHair(17,0,"#392329");eyes("#5a7b8e");
-  rect(39,32,12,2,"#66303b");
-  // clipboard
-  rect(70,89,18,24,"#7d594e");rect(73,92,12,17,"#e2d5d9");
+function addChoice(t, fn) {
+  let b = document.createElement('button');
+  b.className = 'choice';
+  b.textContent = t;
+  b.onclick = fn;
+  $('choices').appendChild(b);
 }
 
-function drawLabScene(){
-  drawBackground();drawBed();
-  // equipment
-  rect(268,65,28,4,"#303038");rect(273,69,4,45,"#24242c");rect(289,69,4,45,"#24242c");
-  rect(269,53,28,12,"#15151b");rect(273,56,20,6,"#34142b");rect(276,58,4,2,"#ff4c9d");
-  // freezer
-  rect(8,52,35,66,"#121016");rect(11,55,29,59,"#24202a");rect(15,60,21,3,"#5b2746");
-  // tubes
-  for(let i=0;i<4;i++){rect(275+i*5,119,3,12,"#c6b5bd");rect(275+i*5,127,3,3,"#7b1d4e")}
-  // characters
-  drawCharacter("experiment",104,36,1.02);
-  drawCharacter("scientist",190,35,1.02);
+function nextScene() {
+  $('choices').style.display = 'none';
+  $('dialogue').style.display = 'block';
+  $('name').textContent = 'SCIENTIST';
+  const msg = path === 'compassionate' ? 'Don\'t be afraid. I\'ll protect you. I promise.' : path === 'pragmatic' ? 'Stay quiet. Don\'t move. If they find you, everything is over.' : 'Don\'t make a sound. I have work to do.';
+  $('text').textContent = msg;
+  $('dialogue').onclick = () => bodysceneAction();
+  saveGame();
+  SoundEngine.play('click', 50);
 }
 
-function render(){
+function bodysceneAction() {
+  $('dialogue').onclick = null;
+  $('name').textContent = 'SYSTEM';
+  $('text').textContent = 'You unlock the freezer. A corpse slides out on the metal tray. Cold. Silent. Waiting.';
+  const charCanvas = document.getElementById('characterDisplayCanvas');
+  charCanvas.style.display = 'none';
+  $('characterDisplay').textContent = '⚠ SYSTEM';
+  SoundEngine.play('error', 150);
+  setTimeout(() => {
+    $('name').textContent = 'SUBJECT';
+    $('text').textContent = 'What... what are you doing?';
+    const charCanvas = document.getElementById('characterDisplayCanvas');
+    charCanvas.style.display = 'block';
+    $('characterDisplay').textContent = '';
+    drawPixelCharacter(charCanvas, 'subject');
+    $('dialogue').onclick = () => cupFalls();
+  }, 1500);
+}
+
+function cupFalls() {
+  $('dialogue').onclick = null;
+  $('name').textContent = 'SYSTEM';
+  $('text').textContent = 'A metal cup falls from the counter. It clatters across the floor.';
+  $('characterDisplay').textContent = '⚠ SYSTEM';
+  SoundEngine.play('alarm', 200);
+  setTimeout(() => {
+    $('dialogue').style.display = 'none';
+    $('choices').style.display = 'block';
+    $('choices').innerHTML = '';
+    addChoice('\"It\'s okay. It\'s just a cup. You didn\'t do anything wrong.\"', () => {
+      obsession += 8;
+      reassureSubject();
+      SoundEngine.play('heartbeat', 80);
+    });
+    addChoice('\"If you break anything else, I will hurt you.\"', () => {
+      path = path === 'compassionate' ? 'crackingCompassion' : 'cruel';
+      terrorizeSubject();
+      SoundEngine.play('error', 80);
+    });
+  }, 1200);
+}
+
+function reassureSubject() {
+  $('choices').style.display = 'none';
+  $('dialogue').style.display = 'block';
+  $('name').textContent = 'SCIENTIST';
+  $('text').textContent = 'It\'s alright. You\'re safe. Nothing will hurt you as long as I\'m here.';
+  drawPixelCharacter(document.getElementById('characterDisplayCanvas'), 'scientist');
+  document.getElementById('characterDisplayCanvas').style.display = 'block';
+  $('dialogue').onclick = () => finalMoment();
+}
+
+function terrorizeSubject() {
+  $('choices').style.display = 'none';
+  $('dialogue').style.display = 'block';
+  $('name').textContent = 'SCIENTIST';
+  $('text').textContent = 'One more mistake and I\'ll make sure you never move again.';
+  drawPixelCharacter(document.getElementById('characterDisplayCanvas'), 'scientist');
+  document.getElementById('characterDisplayCanvas').style.display = 'block';
+  $('dialogue').onclick = () => finalMoment();
+}
+
+function finalMoment() {
+  $('dialogue').onclick = null;
+  $('name').textContent = 'SCIENTIST';
+  $('text').textContent = 'We don\'t have much time. I need you to decide: Do you want to come with me? Or should I turn you in to the Directorate?';
+  $('dialogue').onclick = () => {
+    $('dialogue').style.display = 'none';
+    $('choices').style.display = 'block';
+    $('choices').innerHTML = '';
+    addChoice('Take me with you. Please.', () => {
+      escapeEnding();
+      SoundEngine.play('heartbeat', 150);
+    });
+    addChoice('Turn me in. It\'s better than this.', () => {
+      betrayalEnding();
+      SoundEngine.play('error', 150);
+    });
+  };
+}
+
+function escapeEnding() {
+  $('choices').style.display = 'none';
+  $('dialogue').style.display = 'block';
+  $('name').textContent = 'SUBJECT';
+  $('text').textContent = 'If you take me... what will you do with me? Where will we go?';
+  $('dialogue').onclick = () => {
+    $('dialogue').style.display = 'none';
+    $('choices').style.display = 'block';
+    $('choices').innerHTML = '';
+    addChoice('I\'ll love you. I\'ll protect you. You\'re everything to me.', () => {
+      const ending = obsession >= 70 ? 'OBSESSION' : 'ESCAPE';
+      const txt = obsession >= 70 ?
+        'You grab their hand and pull them toward the exit. Alarms scream. Bullets miss by inches. But you both make it out into the freezing night. As you drive into darkness, you realize you don\'t care what happens to the world anymore. Only they matter. Only their heartbeat matters. Only their existence. You have become something new. Something the agency would call a monster.' :
+        'You take their hand and run. The laboratory burns behind you. As you disappear into the city lights, they lean against you, still confused, still terrified. But alive. And in your arms. You don\'t know what comes next. But for the first time in your life, you feel something worth protecting.';
+      finalEnd(ending, txt);
+      SoundEngine.play('heartbeat', 200);
+    });
+    addChoice('I don\'t know yet. But we\'ll figure it out together.', () => {
+      const ending = 'UNKNOWN';
+      const txt = 'You take them with you into the night. No plan. No safety. No future mapped out. Just the two of you against everything. As the city swallows you both, you realize you\'ve made a choice that can never be undone. And strangely, you don\'t regret it.';
+      finalEnd(ending, txt);
+      SoundEngine.play('heartbeat', 180);
+    });
+  };
+}
+
+function betrayalEnding() {
+  $('choices').style.display = 'none';
+  $('dialogue').style.display = 'block';
+  $('name').textContent = 'SCIENTIST';
+  $('text').textContent = 'If I turn you in, they\'ll dissect you. Everything that makes you *you* will be scattered across laboratory tables.';
+  $('dialogue').onclick = () => {
+    gameOver('SUBJECT TRANSFERRED', 'You hand them over to the Directorate. Within the hour, they are pronounced dead on the operating table. The agency sends you a thank-you note and a new assignment. You never see their face again. But you dream of it every night.');
+  };
+}
+
+function finalEnd(t, txt) {
+  scene = 'ending';
+  $('dialogue').style.display = 'none';
+  $('choices').style.display = 'none';
+  $('ending').style.display = 'flex';
+  $('endingTitle').textContent = t;
+  $('endingText').textContent = txt;
+  $('status').textContent = 'FINAL OUTCOME: ' + t;
+  saveGame();
+}
+
+function gameOver(t, txt) {
+  $('gameOverOverlay').style.display = 'flex';
+  $('gameOverText').textContent = txt;
+  document.querySelector('.gameOverBox h1').textContent = t;
+  SoundEngine.play('error', 300);
+}
+
+function startGame() {
+  SoundEngine.play('alarm', 200);
+  $('title').style.display = 'none';
+  scene = 'computer';
+  $('computer').style.display = 'block';
+  $('status').textContent = 'ACCESSING DATABASE';
+  buildFiles();
+}
+
+function buildFiles() {
+  const f = $('files');
+  f.innerHTML = '';
+  for(let i = 1; i <= 50; i++) {
+    const b = document.createElement('div');
+    b.className = 'file' + (i <= 5 ? ' special' : '');
+    b.textContent = 'EXP-' + String(i).padStart(3, '0');
+    b.onclick = () => openFile(i, b);
+    f.appendChild(b);
+  }
+}
+
+function openFile(i, b) {
+  opened.add(i);
+  b.classList.add('opened');
+  SoundEngine.play('click', 60);
+  let d;
+  if(i <= 5) d = filesData[i - 1];
+  else d = ['EXP-' + String(i).padStart(3, '0'), 'ACCESS DENIED', 'You do not have clearance for this file.'];
+  $('fileInfo').innerHTML = '<b>' + d[0] + ' — ' + d[1] + '</b><br>' + d[2];
+  if([1, 2, 3, 4, 5].every(n => opened.has(n))) {
+    $('fileInfo').innerHTML += '<br><br><span style="color:#ff72b5">&gt; ALL FLAGGED FILES REVIEWED<br>&gt; INCOMING CALL FROM DIRECTORATE</span>';
+    SoundEngine.play('alarm', 300);
+    setTimeout(() => {
+      $('computer').style.display = 'none';
+      $('phone').style.display = 'flex';
+      SoundEngine.play('beep', 80);
+    }, 900);
+  }
+  saveGame();
+}
+
+function answerPhone() {
+  $('phone').style.display = 'none';
+  $('email').style.display = 'flex';
+  SoundEngine.play('beep', 60);
+}
+
+function enterLab() {
+  $('email').style.display = 'none';
+  scene = 'lab';
+  $('dialogue').style.display = 'block';
+  $('status').textContent = 'PROJECT: REANIMATION';
+  showDialogue(0);
+  saveGame();
+  SoundEngine.play('heartbeat', 200);
+}
+
+function renderLoop() {
   frame++;
-  if(scene==="title"){clear("#070409");for(let i=0;i<20;i++){let x=(i*47+frame*.05)%320,y=(i*29)%180;px(x,y,"#321329")}return}
-  if(scene==="computer")return;
-  if(scene==="lab")drawLabScene();
-  if(scene==="ending"){clear("#050205")}
-  requestAnimationFrame(render);
+  if(scene === 'title') {
+    clear('#070609');
+    for(let i = 0; i < 15; i++) {
+      let x = (i * 50 + frame * 0.08) % 320;
+      let y = (i * 35) % 180;
+      rect(x, y, 2, 2, '#8b1f5f');
+    }
+  } else if(scene === 'lab') {
+    drawLabScene();
+  } else if(scene === 'ending') {
+    clear('#0a0410');
+  }
+  requestAnimationFrame(renderLoop);
 }
 
-const filesData=[
- ["NUCLEAR-01","NUCLEAR WEAPON RESEARCH","Highly restricted weapons research archive. Authorization: DIRECTORATE."],
- ["MED-02","MEDICINE A","Experimental pharmaceutical compounds and dosage records."],
- ["ANIMAL-03","BEAUTY TESTING","Animal testing records involving cosmetic products."],
- ["MED-04","MEDICINE B","Unreleased medicine trials. Results classified."],
- ["ANIMAL-05","MAKEUP TESTING","Animal testing records involving makeup compounds."]
-];
-
-let introStarted=false;
-function beginIntro(){
-  if(introStarted)return;
-  introStarted=true;
-  const btn=$("beginButton");
-  btn.textContent="EXPERIMENT INITIALIZING...";
-  btn.disabled=true;
-  btn.style.opacity=".65";
-  $("systemIntro").innerHTML="<b>SYSTEM</b><br>Initializing experiment...<br>Loading classified files...";
-  $("clickContinue").textContent="CLICK TO CONTINUE";
-  setTimeout(()=>{
-    btn.disabled=false;
-    btn.style.opacity="1";
-    btn.textContent="CONTINUE";
-    btn.onclick=begin;
-    $("systemIntro").innerHTML="<b>SYSTEM</b><br>Experiment initialized.<br>Secure connection established.";
-  },1200);
-}
-function begin(){
- hide(title);scene="computer";computer.style.display="block";buildFiles();$("status").textContent="DATABASE ACCESS";
-}
-function buildFiles(){
- const f=$("files");f.innerHTML="";
- for(let i=1;i<=50;i++){
-   const b=document.createElement("div");b.className="file"+(i<=5?" special":"");
-   b.textContent="EXP-"+String(i).padStart(3,"0");
-   b.onclick=()=>openFile(i,b);f.appendChild(b);
- }
-}
-function openFile(i,b){
- opened.add(i);b.classList.add("opened");
- let d;
- if(i<=5)d=filesData[i-1];
- else d=["EXP-"+String(i).padStart(3,"0"),"ACCESS RESTRICTED","Clearance insufficient. This file is not part of your current assignment."];
- $("fileInfo").innerHTML="<b>"+d[0]+" — "+d[1]+"</b><br>"+d[2];
- if([1,2,3,4,5].every(n=>opened.has(n))){
-   $("fileInfo").innerHTML+="<br><br><span style='color:#ff6fae'>&gt; FIVE FLAGGED FILES REVIEWED.<br>&gt; PHONE LINE ACTIVATED.</span>";
-   setTimeout(()=>{computer.style.display="none";phone.style.display="flex";},900);
- }
-}
-function answerPhone(){
- phone.style.display="none";email.style.display="flex";
-}
-function enterLab(){
- email.style.display="none";scene="lab";dialogue.style.display="block";showDialogue(0);
- $("status").textContent="PROJECT: REANIMATION";
-}
-
-const lines=[
- ["SCIENTIST","Another failed experiment..."],
- ["SCIENTIST","Same results. Same silence."],
- ["SCIENTIST","I should go home."],
- ["SYSTEM","A heartbeat has been detected."],
- ["SCIENTIST","...What?"],
- ["EXPERIMENT","..."],
- ["EXPERIMENT","Who are you?"],
- ["SCIENTIST","I'm the scientist who woke you up."],
- ["EXPERIMENT","Woke me up... from what?"],
- ["SCIENTIST","You don't remember anything?"],
- ["EXPERIMENT","No. I don't remember my name. I don't remember anything."],
- ["SCIENTIST","Then we'll start there."],
- ["SYSTEM","KNOCK. KNOCK."],
- ["DOCTOR","Is everything okay in there?"],
- ["SCIENTIST","Everything is fine. There were complications."],
- ["DOCTOR","I need to see the patient."],
- ["SCIENTIST","They're unstable. I'll handle it."],
- ["DOCTOR","...Fine. Call me if anything changes."],
- ["SYSTEM","The door closes. The lock clicks."],
- ["EXPERIMENT","Why did you hide me?"],
- ["SCIENTIST","Because if they see you, they'll take you away."],
- ["EXPERIMENT","Take me where?"],
- ["SCIENTIST","Somewhere you won't come back from."]
-];
-
-function showDialogue(i){
- current=i;typing=true;nameEl.textContent=lines[i][0];textEl.textContent="";
- clearInterval(timer);let s=lines[i][1],n=0;
- timer=setInterval(()=>{textEl.textContent+=s[n++];if(n>=s.length){clearInterval(timer);typing=false}},20);
-}
-function next(){
- if(typing){clearInterval(timer);textEl.textContent=lines[current][1];typing=false;return}
- if(current<lines.length-1){showDialogue(current+1);return}
- showChoices1();
-}
-dialogue.onclick=next;
-
-function showChoices1(){
- dialogue.style.display="none";choices.style.display="block";
- choices.innerHTML="";
- addChoice("Comfort them and explain what happened.",()=>{trust++;path="kind";showExperimentScene()});
- addChoice("Tell them they need to stay quiet.",()=>{path="fear";showExperimentScene()});
- addChoice("Pretend you know nothing and leave them alone.",()=>{path="cold";showExperimentScene()});
-}
-function addChoice(t,fn){let b=document.createElement("button");b.className="choice";b.textContent=t;b.onclick=fn;choices.appendChild(b)}
-
-function showExperimentScene(){
- choices.style.display="none";dialogue.style.display="block";
- const extra=path==="kind"?"It's alright. You're safe for now.":path==="fear"?"If you want to stay alive, don't make a sound.":"I have work to finish. Stay there.";
- nameEl.textContent="SCIENTIST";textEl.textContent=extra;
- document.getElementById("continue").textContent="▼ CLICK";
- dialogue.onclick=()=>bodyTest();
-}
-function bodyTest(){
- dialogue.onclick=null;nameEl.textContent="SYSTEM";textEl.textContent="You pull another covered body from the laboratory freezer. The experiment watches in silence.";
- setTimeout(()=>{nameEl.textContent="EXPERIMENT";textEl.textContent="What are you doing?";dialogue.onclick=()=>cup();},1200);
-}
-function cup(){
- nameEl.textContent="SYSTEM";textEl.textContent="A metal cup falls from the counter. CLANG.";
- dialogue.onclick=()=>cupChoices();
-}
-function cupChoices(){
- dialogue.style.display="none";choices.style.display="block";choices.innerHTML="";
- addChoice("\"It's okay. You didn't do anything wrong.\"",()=>{trust++;finalQuestion()});
- addChoice("\"Do that again and there will be consequences.\"",()=>{trust--;finalQuestion()});
-}
-function finalQuestion(){
- choices.style.display="none";dialogue.style.display="block";
- nameEl.textContent="SCIENTIST";
- textEl.textContent="Would you rather come with me, or should I turn you over to the agency?";
- dialogue.onclick=()=>lastChoices();
-}
-function lastChoices(){
- dialogue.style.display="none";choices.style.display="block";choices.innerHTML="";
- addChoice("Take me with you.",()=>escapeChoice());
- addChoice("Turn me in.",()=>agencyChoice());
-}
-function escapeChoice(){
- choices.style.display="none";dialogue.style.display="block";
- nameEl.textContent="EXPERIMENT";
- textEl.textContent="If I go with you... what will you do with me?";
- dialogue.onclick=()=>{dialogue.style.display="none";choices.style.display="block";choices.innerHTML="";
- addChoice("Protect you. You're mine to protect.",()=>endEscape());
- addChoice("I don't know yet. We'll figure it out together.",()=>endEscape());
- };
-}
-function agencyChoice(){
- choices.style.display="none";dialogue.style.display="block";
- nameEl.textContent="SCIENTIST";
- textEl.textContent="If I turn you in, they will keep you as a test subject. It won't be the same laboratory anymore.";
- dialogue.onclick=()=>endAgency();
-}
-function endEscape(){
- let title=trust>=2?"HEARTBEAT":"THE ESCAPE";
- let txt=trust>=2?
- "You decide the agency will never have the experiment. You lock the laboratory behind you and begin planning a way out. The experiment follows, still confused, but for the first time they choose to trust you. Somewhere beneath the fear, something dangerous begins to grow."
- :"You take the experiment with you. They don't know whether you're saving them or simply taking them somewhere new. The city lights disappear behind the laboratory walls as the first escape begins.";
- end(title,txt);
-}
-function endAgency(){
- end("CLASSIFIED SUBJECT","The agency takes the experiment away. The laboratory returns to its ordinary silence. On your computer, one new file appears: EXP-051 — SUCCESSOR SUBJECT.");
-}
-function end(t,txt){
- scene="ending";dialogue.style.display="none";choices.style.display="none";$("ending").style.display="flex";$("endingTitle").textContent=t;$("endingText").textContent=txt;$("status").textContent="CASE CLOSED";
-}
-
-$("continue").onclick=next;
-show(title);
-render();
+show($('title'));
+requestAnimationFrame(renderLoop);
 </script>
 </body>
 </html>
