@@ -1,312 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Exp3er1mentz H3art</title>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0a0410;color:#f7c8df;font-family:"Courier New",monospace}
-body{image-rendering:pixelated}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Exp3er1mentz H3art</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0a0410;color:#f7c8df;font-family:"Courier New",monospace}
+    body{image-rendering:pixelated}
 
-/* ===== CUSTOM SCROLLBAR (Science Tool Style) ===== */
-::-webkit-scrollbar {
-  width: 16px;
-  height: 16px;
-}
-::-webkit-scrollbar-track {
-  background: linear-gradient(180deg, #030206 0%, #0a050c 50%, #030206 100%);
-  border-left: 2px solid #2a1a2a;
-}
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff72b5 0%, #d4288f 50%, #b82a76 100%);
-  border: 2px solid #120811;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(255, 114, 181, 0.6), inset 0 0 5px rgba(255, 114, 181, 0.3);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #ff9dc7 0%, #ff72b5 50%, #d4288f 100%);
-  box-shadow: 0 0 20px rgba(255, 114, 181, 0.9), inset 0 0 8px rgba(255, 114, 181, 0.5);
-}
-::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(180deg, #ffb2d9 0%, #ff9dc7 50%, #ff72b5 100%);
-}
-::-webkit-scrollbar-corner {
-  background: #030206;
-}
-/* Firefox scrollbar */
-* {
-  scrollbar-color: #ff72b5 #0a050c;
-  scrollbar-width: thin;
-}
+    /* STARDEW-STYLE SIDEBAR LAYOUT */
+    #wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0410}
+    #game{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:#0f0a14;overflow:hidden;border:3px solid #4a1a4a;box-shadow:0 0 60px #d4288f;display:flex;flex-direction:row}
+    
+    /* MAIN CANVAS - LEFT SIDE */
+    #canvasContainer{flex:1;position:relative;display:flex;align-items:center;justify-content:center;background:#0a0410;border-right:2px solid #4a1a4a}
+    canvas{width:100%;height:100%;display:block;image-rendering:pixelated;max-width:100%;max-height:100%}
 
-#wrap{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0410}
-#game{position:relative;width:min(100vw,177.78vh);height:min(100vh,56.25vw);background:#0f0a14;overflow:hidden;border:3px solid #4a1a4a;box-shadow:0 0 60px #d4288f;transform-origin:center center}
-#game.shaking{animation:gameShake 0.3s cubic-bezier(0.36, 0, 0.66, 1)}
-@keyframes gameShake{
-  0%{transform:translate(0, 0) rotate(0deg)}
-  10%{transform:translate(-6px, 3px) rotate(-1deg)}
-  20%{transform:translate(6px, -3px) rotate(1deg)}
-  30%{transform:translate(-5px, 2px) rotate(-0.8deg)}
-  40%{transform:translate(5px, -2px) rotate(0.8deg)}
-  50%{transform:translate(-8px, 4px) rotate(-1.2deg)}
-  60%{transform:translate(8px, -4px) rotate(1.2deg)}
-  70%{transform:translate(-4px, 1px) rotate(-0.5deg)}
-  80%{transform:translate(4px, -1px) rotate(0.5deg)}
-  90%{transform:translate(-2px, 0px) rotate(-0.2deg)}
-  100%{transform:translate(0, 0) rotate(0deg)}
-}
-canvas{width:100%;height:100%;display:block;image-rendering:pixelated}
-#ui{position:absolute;inset:0;pointer-events:none;z-index:10}
-#top{position:absolute;top:15px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:center;color:#ff72b5;font-size:13px;text-shadow:0 0 10px #8b1f5f,0 2px #030206;z-index:20;pointer-events:auto}
-.topLeft,.topRight{display:flex;align-items:center;gap:8px}
-#dayCounter{background:rgba(40,10,40,.9);border:2px solid #ff72b5;padding:6px 10px;font-size:11px;box-shadow:0 0 10px rgba(255,114,181,0.4);color:#ffb7d8}
-#soundToggle,#saveToggle,#settingsToggle{background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#ff72b5;padding:6px 10px;cursor:pointer;font-size:11px;margin-left:6px;transition:.15s;pointer-events:auto;box-shadow:0 0 8px rgba(212,40,143,0.3)}
-#soundToggle:hover,#saveToggle:hover,#settingsToggle:hover{background:rgba(80,20,60,.95);border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.6);transform:scale(1.05)}
-#soundToggle:active,#saveToggle:active,#settingsToggle:active{transform:scale(0.98)}
-#characterDisplay{position:absolute;left:3%;bottom:28%;width:110px;height:140px;background:rgba(15,5,20,.85);border:2px solid #d4288f;box-shadow:0 0 15px #8b1f5f;display:flex;align-items:center;justify-content:center;overflow:hidden;image-rendering:pixelated}
-#characterDisplayCanvas{width:100%;height:100%;image-rendering:pixelated;display:none}
-#dialogue{position:absolute;left:3%;right:3%;bottom:2%;min-height:26%;padding:16px 18px;background:rgba(15,5,20,.94);border:2px solid #d4288f;box-shadow:0 0 0 3px #2a0a35,0 0 40px #8b1f5f;pointer-events:auto;cursor:pointer}
-#name{color:#ff72b5;font-weight:bold;margin-bottom:6px;letter-spacing:1px;font-size:12px}
-#text{color:#f4d9e6;line-height:1.65;font-size:clamp(11px,1.1vw,15px);min-height:55px;word-wrap:break-word}
-#continue{position:absolute;right:14px;bottom:8px;color:#ff72b5;font-size:10px;animation:pulse 1s infinite;pointer-events:none}
-#choices{position:absolute;left:4%;right:4%;bottom:calc(28% + 10px);display:none;pointer-events:auto;max-height:20%;overflow-y:auto}
-.choice{display:block;width:100%;margin:6px 0;padding:10px 12px;background:linear-gradient(90deg,rgba(40,10,40,.9),rgba(60,20,50,.9));border:2px solid #d4288f;color:#f9b9d8;font:inherit;cursor:pointer;text-align:left;transition:.15s;box-shadow:0 0 6px rgba(212,40,143,0.3)}
-.choice:hover{background:linear-gradient(90deg,rgba(80,30,70,.95),rgba(100,40,80,.95));border-color:#ff72b5;box-shadow:4px 4px rgba(212,40,143,.5);transform:translateX(4px)}
-.choice:active{transform:translate(2px,2px);box-shadow:1px 1px rgba(0,0,0,.5)}
-#title,#ending,#computer,#email,#phone,#saveMenu,#gameOverOverlay,#settingsPanel,#nameInputModal{position:absolute;inset:0;display:none;pointer-events:auto;z-index:500}
-#title{display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 40%,rgba(150,20,100,.2),transparent 40%),linear-gradient(135deg,#0a0410,#120a15 35%,#180c18 60%,#0a0410)}
-.introCard{position:relative;width:min(720px,88%);padding:35px 40px;border:2px solid #d4288f;background:rgba(20,8,25,.92);box-shadow:0 0 80px rgba(212,40,143,.15),inset 0 0 30px rgba(212,40,143,.08)}
-.logo{font-size:clamp(32px,6vw,68px);font-weight:bold;letter-spacing:4px;color:#ff72b5;text-shadow:4px 4px #4a1a4a,0 0 30px #d4288f;margin-bottom:12px}
-.subtitle{color:#b85a9c;font-size:clamp(10px,1.2vw,14px);letter-spacing:2px;margin-bottom:20px}
-.storyPreview{color:#e5c4d4;font-size:clamp(10px,1.1vw,13px);line-height:1.8;margin:20px 0;text-align:left;max-height:200px;overflow-y:auto;padding-right:6px}
-.storyPreview b{color:#ff72b5}
-.nameField{margin:16px 0 10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%}
-.nameField label{font-size:10px;letter-spacing:2px;color:#d1a7c5;text-transform:uppercase}
-.nameField input{width:100%;max-width:320px;padding:10px 12px;border:2px solid #d4288f;background:rgba(11,5,14,.9);color:#ffd6ec;font:inherit;outline:none;box-shadow:inset 0 0 20px rgba(212,40,143,.08);transition:.2s}
-.nameField input::placeholder{color:rgba(255,214,236,0.5)}
-.nameField input:focus{border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.4),inset 0 0 10px rgba(255,114,181,0.1)}
-.start{margin-top:25px;padding:12px 32px;min-width:200px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#ff9dcc;font:inherit;letter-spacing:1px;cursor:pointer;box-shadow:0 0 20px rgba(212,40,143,.15);transition:.15s}
-.start:hover{background:rgba(80,20,60,.95);border-color:#ff72b5;box-shadow:0 0 30px rgba(212,40,143,.35);transform:scale(1.02)}
-.start:active{transform:scale(0.98)}
-.agency{margin-top:15px;color:#8a5a8f;font-size:9px;letter-spacing:1.2px}
-#computer{background:#0a050f;padding:4%}
-.monitor{width:94%;height:88%;margin:auto;background:#000;border:10px solid #2a1a2a;box-shadow:0 0 0 2px #8b1f5f,0 0 40px #8b1f5f}
-.bar{height:32px;background:#1a0a20;padding:8px;color:#d4288f;font-size:11px;border-bottom:1px solid #4a1a4a}
-.screen{height:calc(100% - 32px);padding:16px;background:#050208;color:#a8ff6e;overflow:auto;font-size:12px;line-height:1.6}
-.files{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:15px}
-.file{padding:6px 2px;background:#0a0f08;border:2px solid #2a4a2a;color:#7ae68c;cursor:pointer;text-align:center;font-size:9px;transition:.1s;box-shadow:0 0 4px rgba(122,230,140,0.2)}
-.file:hover{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15;box-shadow:0 0 8px rgba(255,114,181,0.4)}
-.file.opened{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15;box-shadow:0 0 8px rgba(255,114,181,0.6)}
-.file.special{color:#ff72b5;text-shadow:0 0 6px #ff2c8b;border-color:#ff2c8b}
-#fileInfo{margin-top:12px;min-height:50px;color:#e69abb;border-top:1px solid #2a4a2a;padding-top:10px}
-#phone{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
-.phoneBox{padding:30px 40px;background:rgba(20,8,25,.95);border:2px solid #d4288f;text-align:center;box-shadow:0 0 40px #8b1f5f}
-.ring{font-size:48px;animation:pulse .6s infinite alternate}
-#email{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
-.mail{width:min(600px,86%);background:rgba(20,8,25,.95);border:2px solid #d4288f;padding:28px;box-shadow:0 0 40px #8b1f5f}
-.mail h2{color:#ff72b5;margin-top:0;font-size:16px}
-.mail p{line-height:1.7;color:#e5c4d4;font-size:12px}
-.mail .warning{color:#ff5a9e;font-weight:bold}
-#ending{align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle,#3a1a35,#0a0410 70%)}
-#ending h1{color:#ff6eb1;font-size:clamp(28px,5vw,58px);margin:0 0 20px 0;text-shadow:2px 2px #4a1a4a}
-#ending p{width:min(700px,85%);line-height:1.8;color:#d5b5c7;margin-bottom:30px;font-size:clamp(11px,1.1vw,14px)}
-#ending .buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-#gameOverOverlay{display:none;background:rgba(0,0,0,.9);align-items:center;justify-content:center}
-.gameOverBox{background:rgba(20,8,25,.95);border:3px solid #ff2c8b;padding:40px;text-align:center;box-shadow:0 0 50px #ff2c8b}
-.gameOverBox h1{color:#ff2c8b;font-size:32px;margin:0 0 15px 0}
-.gameOverBox p{color:#e5c4d4;line-height:1.7;margin-bottom:25px}
-#saveMenu{align-items:center;justify-content:center;background:rgba(0,0,0,.85)}
-.savePanel{background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:30px;width:min(520px,90%);box-shadow:0 0 50px #8b1f5f;max-height:80vh;overflow-y:auto}
-.savePanel h2{color:#ff72b5;margin-top:0;margin-bottom:20px}
-.saveSlot{background:rgba(40,15,45,.7);border:2px solid #8b1f5f;padding:12px;margin:8px 0;cursor:pointer;text-align:left;color:#e69abb;transition:.15s}
-.saveSlot:hover{background:rgba(60,25,65,.9);border-color:#ff72b5;box-shadow:0 0 10px rgba(255,114,181,0.3)}
-.saveSlot.filled{border-color:#ff72b5}
-.saveSlot.filled::before{content:'✓ ';color:#ff72b5}
-.saveClose{position:absolute;top:15px;right:15px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#d4288f;padding:8px 12px;cursor:pointer;font-size:12px;transition:.15s}
-.saveClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5}
+    /* RIGHT SIDEBAR - DIALOGUE & CHOICES */
+    #sidebar{width:35%;background:linear-gradient(135deg, rgba(15,5,20,0.95), rgba(25,10,30,0.95));border-left:2px solid #4a1a4a;display:flex;flex-direction:column;overflow:hidden}
 
-/* ===== SETTINGS PANEL ===== */
-#settingsPanel{display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8)}
-.settingsCard{width:min(520px,90%);background:rgba(18,7,22,.97);border:2px solid #d4288f;box-shadow:0 0 50px rgba(212,40,143,.26);padding:24px 20px;position:relative;max-height:85vh;overflow-y:auto}
-.settingsTitle{color:#ff72b5;font-size:18px;letter-spacing:2px;margin-bottom:20px;text-transform:uppercase}
-.settingRow{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid rgba(212,40,143,.35);color:#e1bfd2}
-.settingRow:first-of-type{border-top:none}
-.settingLabel{font-size:12px;letter-spacing:0.5px}
-.settingValue{font-size:12px;color:#ffb7d8;font-weight:bold}
-.miniToggle{background:rgba(38,15,34,.9);border:2px solid #d4288f;color:#ff72b5;padding:6px 12px;cursor:pointer;transition:.15s;font-size:11px;box-shadow:0 0 6px rgba(212,40,143,0.3)}
-.miniToggle:hover{background:rgba(60,25,60,.95);border-color:#ff72b5;box-shadow:0 0 12px rgba(255,114,181,0.5)}
-.miniToggle.active{background:rgba(255,114,181,.3);border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.6)}
-.settingsClose{position:absolute;top:12px;right:12px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#d4288f;padding:8px 10px;cursor:pointer;font-size:12px;transition:.15s}
-.settingsClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5;box-shadow:0 0 10px rgba(255,114,181,0.4)}
+    /* GAME SHAKING */
+    #game.shaking{animation:gameShake 0.3s cubic-bezier(0.36, 0, 0.66, 1)}
+    @keyframes gameShake{
+      0%{transform:translate(0, 0) rotate(0deg)}
+      10%{transform:translate(-6px, 3px) rotate(-1deg)}
+      20%{transform:translate(6px, -3px) rotate(1deg)}
+      30%{transform:translate(-5px, 2px) rotate(-0.8deg)}
+      40%{transform:translate(5px, -2px) rotate(0.8deg)}
+      50%{transform:translate(-8px, 4px) rotate(-1.2deg)}
+      60%{transform:translate(8px, -4px) rotate(1.2deg)}
+      70%{transform:translate(-4px, 1px) rotate(-0.5deg)}
+      80%{transform:translate(4px, -1px) rotate(0.5deg)}
+      90%{transform:translate(-2px, 0px) rotate(-0.2deg)}
+      100%{transform:translate(0, 0) rotate(0deg)}
+    }
 
-/* ===== NAME INPUT MODAL ===== */
-#nameInputModal{align-items:center;justify-content:center;background:rgba(0,0,0,.85);display:none}
-.nameModal{width:min(480px,90%);background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:32px;box-shadow:0 0 60px rgba(212,40,143,.3);text-align:center}
-.nameModal h2{color:#ff72b5;margin-top:0;margin-bottom:12px;font-size:16px;letter-spacing:1px}
-.nameModal p{color:#e5c4d4;font-size:12px;margin-bottom:20px;line-height:1.6}
-.nameModal input{width:100%;max-width:350px;padding:12px 14px;border:2px solid #d4288f;background:rgba(11,5,14,.95);color:#ffd6ec;font:inherit;outline:none;box-shadow:inset 0 0 20px rgba(212,40,143,.08);transition:.2s;margin-bottom:16px;display:block}
-.nameModal input:focus{border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.4)}
-.nameModal .buttonGroup{display:flex;gap:12px;justify-content:center}
-.nameModal .start{margin:0;flex:1;max-width:150px}
+    /* SCROLLBAR - KEEP YOUR AESTHETIC */
+    ::-webkit-scrollbar{width:16px;height:16px}
+    ::-webkit-scrollbar-track{background:linear-gradient(180deg,#030206 0%,#0a050c 50%,#030206 100%);border-left:2px solid #2a1a2a}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff72b5 0%,#d4288f 50%,#b82a76 100%);border:2px solid #120811;border-radius:8px;box-shadow:0 0 10px rgba(255,114,181,0.6),inset 0 0 5px rgba(255,114,181,0.3)}
+    ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#ff9dc7 0%,#ff72b5 50%,#d4288f 100%);box-shadow:0 0 20px rgba(255,114,181,0.9),inset 0 0 8px rgba(255,114,181,0.5)}
+    ::-webkit-scrollbar-corner{background:#030206}
+    *{scrollbar-color:#ff72b5 #0a050c;scrollbar-width:thin}
 
-@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
-@keyframes glow{0%,100%{text-shadow:0 0 10px rgba(255,114,181,0.4)}50%{text-shadow:0 0 20px rgba(255,114,181,0.8)}}
-.glow{animation:glow 1s infinite}
-@media(max-width:800px){.monitor{border:6px solid #2a1a2a}.files{grid-template-columns:repeat(6,1fr)}.screen{font-size:10px}}
-</style>
+    /* SIDEBAR HEADER */
+    .sidebarHeader{background:linear-gradient(90deg,rgba(40,10,40,0.9),rgba(60,20,50,0.9));border-bottom:2px solid #d4288f;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .sidebarHeader span{color:#ff72b5;font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase}
+    .topButtons{display:flex;gap:6px}
+    .topButtons button{padding:6px 10px;background:rgba(40,10,40,0.8);border:2px solid #d4288f;color:#ff72b5;cursor:pointer;font-size:11px;transition:.15s;font-family:inherit}
+    .topButtons button:hover{background:rgba(80,20,60,0.95);border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.6);transform:scale(1.05)}
+
+    /* CHARACTER PORTRAIT IN SIDEBAR */
+    .portraitBox{width:100%;height:140px;background:rgba(20,10,25,0.8);border-bottom:2px solid #4a1a4a;display:flex;align-items:center;justify-content:center;position:relative}
+    #characterDisplayCanvas{width:100%;height:100%;image-rendering:pixelated;display:none}
+    #characterDisplay{color:#ff72b5;font-size:12px;font-weight:bold;text-align:center}
+
+    /* DIALOGUE BOX */
+    .dialogueBox{flex:1;display:flex;flex-direction:column;padding:15px;gap:10px;border-bottom:2px solid #4a1a4a;overflow-y:auto;background:rgba(15,5,20,0.8)}
+    #name{color:#ff72b5;font-weight:bold;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+    #text{color:#f4d9e6;line-height:1.6;font-size:11px;flex:1;word-wrap:break-word;min-height:40px}
+    #continue{color:#ff72b5;font-size:10px;animation:pulse 1s infinite;text-align:right}
+    @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+    /* CHOICES CONTAINER */
+    #choices{display:flex;flex-direction:column;gap:8px;padding:12px;max-height:200px;overflow-y:auto;background:rgba(10,5,15,0.6)}
+    .choice{display:block;width:100%;padding:10px 12px;background:linear-gradient(90deg,rgba(40,10,40,.9),rgba(60,20,50,.9));border:2px solid #d4288f;color:#f9b9d8;font:inherit;cursor:pointer;font-size:10px;transition:.15s;text-align:left}
+    .choice:hover{background:linear-gradient(90deg,rgba(80,30,70,.95),rgba(100,40,80,.95));border-color:#ff72b5;box-shadow:4px 4px rgba(212,40,143,.5);transform:translateX(4px)}
+    .choice:active{transform:translate(2px,2px);box-shadow:1px 1px rgba(0,0,0,.5)}
+
+    /* SCREENS OVERLAY */
+    #title,#ending,#computer,#email,#phone,#saveMenu,#gameOverOverlay,#settingsPanel,#nameInputModal{position:fixed;inset:0;display:none;pointer-events:auto;z-index:500}
+    
+    /* TITLE SCREEN */
+    #title{display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 40%,rgba(150,20,100,.2),transparent 40%),linear-gradient(135deg,#0a0410,#0f0a14)}
+    .introCard{position:relative;width:min(720px,88%);padding:35px 40px;border:2px solid #d4288f;background:rgba(20,8,25,.92);box-shadow:0 0 80px rgba(212,40,143,.15),inset 0 0 30px rgba(212,40,143,.05)}
+    .logo{font-size:clamp(32px,6vw,68px);font-weight:bold;letter-spacing:4px;color:#ff72b5;text-shadow:4px 4px #4a1a4a,0 0 30px #d4288f;margin-bottom:12px}
+    .subtitle{color:#b85a9c;font-size:clamp(10px,1.2vw,14px);letter-spacing:2px;margin-bottom:20px}
+    .storyPreview{color:#e5c4d4;font-size:clamp(10px,1.1vw,13px);line-height:1.8;margin:20px 0;text-align:left;max-height:200px;overflow-y:auto;padding-right:6px}
+    .storyPreview b{color:#ff72b5}
+    .nameField{margin:16px 0 10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%}
+    .nameField label{font-size:10px;letter-spacing:2px;color:#d1a7c5;text-transform:uppercase}
+    .nameField input{width:100%;max-width:320px;padding:10px 12px;border:2px solid #d4288f;background:rgba(11,5,14,.9);color:#ffd6ec;font:inherit;outline:none;box-shadow:inset 0 0 20px rgba(212,40,143,.2)}
+    .nameField input::placeholder{color:rgba(255,214,236,0.5)}
+    .nameField input:focus{border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.4),inset 0 0 10px rgba(255,114,181,0.1)}
+    .start{margin-top:25px;padding:12px 32px;min-width:200px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#ff9dcc;font:inherit;letter-spacing:1px;cursor:pointer;box-shadow:0 0 20px rgba(212,40,143,.2);transition:.15s}
+    .start:hover{background:rgba(80,20,60,.95);border-color:#ff72b5;box-shadow:0 0 30px rgba(212,40,143,.35);transform:scale(1.02)}
+    .start:active{transform:scale(0.98)}
+    .agency{margin-top:15px;color:#8a5a8f;font-size:9px;letter-spacing:1.2px}
+
+    /* COMPUTER SCREEN */
+    #computer{background:#0a050f;padding:4%}
+    .monitor{width:94%;height:88%;margin:auto;background:#000;border:10px solid #2a1a2a;box-shadow:0 0 0 2px #8b1f5f,0 0 40px #8b1f5f}
+    .bar{height:32px;background:#1a0a20;padding:8px;color:#d4288f;font-size:11px;border-bottom:1px solid #4a1a4a}
+    .screen{height:calc(100% - 32px);padding:16px;background:#050208;color:#a8ff6e;overflow:auto;font-size:12px;line-height:1.6}
+    .files{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:15px}
+    .file{padding:6px 2px;background:#0a0f08;border:2px solid #2a4a2a;color:#7ae68c;cursor:pointer;text-align:center;font-size:9px;transition:.1s;box-shadow:0 0 4px rgba(122,230,140,0.2)}
+    .file:hover{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15;box-shadow:0 0 8px rgba(255,114,181,0.4)}
+    .file.opened{border-color:#ff72b5;color:#ff8fc2;background:#1a0f15;box-shadow:0 0 8px rgba(255,114,181,0.6)}
+    .file.special{color:#ff72b5;text-shadow:0 0 6px #ff2c8b;border-color:#ff2c8b}
+    #fileInfo{margin-top:12px;min-height:50px;color:#e69abb;border-top:1px solid #2a4a2a;padding-top:10px}
+
+    /* PHONE */
+    #phone{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
+    .phoneBox{padding:30px 40px;background:rgba(20,8,25,.95);border:2px solid #d4288f;text-align:center;box-shadow:0 0 40px #8b1f5f}
+    .ring{font-size:48px;animation:pulse .6s infinite alternate}
+
+    /* EMAIL */
+    #email{align-items:center;justify-content:center;background:rgba(0,0,0,.7)}
+    .mail{width:min(600px,86%);background:rgba(20,8,25,.95);border:2px solid #d4288f;padding:28px;box-shadow:0 0 40px #8b1f5f}
+    .mail h2{color:#ff72b5;margin-top:0;font-size:16px}
+    .mail p{line-height:1.7;color:#e5c4d4;font-size:12px}
+    .mail .warning{color:#ff5a9e;font-weight:bold}
+
+    /* ENDING */
+    #ending{align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle,#3a1a35,#0a0410 70%)}
+    #ending h1{color:#ff6eb1;font-size:clamp(28px,5vw,58px);margin:0 0 20px 0;text-shadow:2px 2px #4a1a4a}
+    #ending p{width:min(700px,85%);line-height:1.8;color:#d5b5c7;margin-bottom:30px;font-size:clamp(11px,1.1vw,14px)}
+    #ending .buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+    /* GAME OVER */
+    #gameOverOverlay{display:none;background:rgba(0,0,0,.9);align-items:center;justify-content:center}
+    .gameOverBox{background:rgba(20,8,25,.95);border:3px solid #ff2c8b;padding:40px;text-align:center;box-shadow:0 0 50px #ff2c8b}
+    .gameOverBox h1{color:#ff2c8b;font-size:32px;margin:0 0 15px 0}
+    .gameOverBox p{color:#e5c4d4;line-height:1.7;margin-bottom:25px}
+
+    /* SAVE MENU */
+    #saveMenu{align-items:center;justify-content:center;background:rgba(0,0,0,.85)}
+    .savePanel{background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:30px;width:min(520px,90%);box-shadow:0 0 50px #8b1f5f;max-height:80vh;overflow-y:auto}
+    .savePanel h2{color:#ff72b5;margin-top:0;margin-bottom:20px}
+    .saveSlot{background:rgba(40,15,45,.7);border:2px solid #8b1f5f;padding:12px;margin:8px 0;cursor:pointer;text-align:left;color:#e69abb;transition:.15s}
+    .saveSlot:hover{background:rgba(60,25,65,.9);border-color:#ff72b5;box-shadow:0 0 10px rgba(255,114,181,0.3)}
+    .saveSlot.filled{border-color:#ff72b5}
+    .saveSlot.filled::before{content:'✓ ';color:#ff72b5}
+    .saveClose{position:absolute;top:15px;right:15px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#d4288f;padding:8px 12px;cursor:pointer;font-size:12px;transition:.15s}
+    .saveClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5}
+
+    /* SETTINGS */
+    #settingsPanel{display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8)}
+    .settingsCard{width:min(520px,90%);background:rgba(18,7,22,.97);border:2px solid #d4288f;box-shadow:0 0 50px rgba(212,40,143,.26);padding:24px 20px;position:relative;max-height:85vh;overflow-y:auto}
+    .settingsTitle{color:#ff72b5;font-size:18px;letter-spacing:2px;margin-bottom:20px;text-transform:uppercase}
+    .settingRow{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid rgba(212,40,143,.35);color:#e1bfd2}
+    .settingRow:first-of-type{border-top:none}
+    .settingLabel{font-size:12px;letter-spacing:0.5px}
+    .settingValue{font-size:12px;color:#ffb7d8;font-weight:bold}
+    .miniToggle{background:rgba(38,15,34,.9);border:2px solid #d4288f;color:#ff72b5;padding:6px 12px;cursor:pointer;transition:.15s;font-size:11px;box-shadow:0 0 6px rgba(212,40,143,0.3)}
+    .miniToggle:hover{background:rgba(60,25,60,.95);border-color:#ff72b5;box-shadow:0 0 12px rgba(255,114,181,0.5)}
+    .miniToggle.active{background:rgba(255,114,181,.3);border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.6)}
+    .settingsClose{position:absolute;top:12px;right:12px;background:rgba(40,10,40,.8);border:2px solid #d4288f;color:#d4288f;padding:8px 10px;cursor:pointer;font-size:12px;transition:.15s}
+    .settingsClose:hover{background:rgba(80,20,60,.9);border-color:#ff72b5;box-shadow:0 0 10px rgba(255,114,181,0.4)}
+
+    /* NAME MODAL */
+    #nameInputModal{align-items:center;justify-content:center;background:rgba(0,0,0,.85);display:none}
+    .nameModal{width:min(480px,90%);background:rgba(20,8,25,.98);border:2px solid #d4288f;padding:32px;box-shadow:0 0 60px rgba(212,40,143,.3);text-align:center}
+    .nameModal h2{color:#ff72b5;margin-top:0;margin-bottom:12px;font-size:16px;letter-spacing:1px}
+    .nameModal p{color:#e5c4d4;font-size:12px;margin-bottom:20px;line-height:1.6}
+    .nameModal input{width:100%;max-width:350px;padding:12px 14px;border:2px solid #d4288f;background:rgba(11,5,14,.95);color:#ffd6ec;font:inherit;outline:none;box-shadow:inset 0 0 20px rgba(212,40,143,.2)}
+    .nameModal input:focus{border-color:#ff72b5;box-shadow:0 0 15px rgba(255,114,181,0.4)}
+    .nameModal .buttonGroup{display:flex;gap:12px;justify-content:center}
+    .nameModal .start{margin:0;flex:1;max-width:150px}
+
+    @media(max-width:1000px){#sidebar{width:40%}.dialogueBox{font-size:10px}}
+    @media(max-width:800px){#game{flex-direction:column}#canvasContainer{flex:1;border-right:none;border-bottom:2px solid #4a1a4a}#sidebar{width:100%;height:35%}.monitor{border:6px solid #2a1a2a}.files{grid-template-columns:repeat(6,1fr)}.screen{font-size:10px}}
+  </style>
 </head>
 <body>
-<div id="wrap"><div id="game">
-<canvas id="c" width="320" height="180"></canvas>
+  <div id="wrap"><div id="game">
+    <!-- LEFT SIDE: CANVAS -->
+    <div id="canvasContainer">
+      <canvas id="c" width="320" height="180"></canvas>
+    </div>
 
-<div id="title">
-  <div class="introCard">
-    <div class="logo">Exp3er1mentz H3art</div>
-    <div class="subtitle">A CLASSIFIED EXPERIMENT</div>
-    <div class="storyPreview">
-      <b>You are a scientist.</b> For years, you've conducted safe, ethical experiments. Boring experiments. Then one day, the Directorate offers you something different. Something <b>interesting.</b><br>
-      <b>Human reanimation.</b> Bringing the dead back to life. Corpse after corpse, failure after failure—until one day, a body arrives that changes everything. Beautiful. Perfect. And when they wake up...<br>
-      <b>But you're not the only one watching.</b>
-    </div>
-    <button class="start" onclick="startGame()">BEGIN EXPERIMENT</button>
-    <div class="agency">⚠ CLASSIFIED MATERIAL — UNAUTHORIZED ACCESS IS PROHIBITED ⚠</div>
-  </div>
-</div>
+    <!-- RIGHT SIDE: SIDEBAR WITH DIALOGUE -->
+    <div id="sidebar">
+      <div class="sidebarHeader">
+        <span>DIALOGUE INTERFACE</span>
+        <div class="topButtons">
+          <button id="settingsToggle" onclick="openSettings()">⚙</button>
+          <button id="saveToggle" onclick="openSaveMenu()">💾</button>
+          <button id="soundToggle" onclick="toggleSound()">🔊</button>
+        </div>
+      </div>
 
-<div id="nameInputModal">
-  <div class="nameModal">
-    <h2>SCIENTIST IDENTIFICATION</h2>
-    <p>Enter your designation for the classified database</p>
-    <input id="nameInputField" type="text" maxlength="24" placeholder="e.g., Dr. Voss" autocomplete="off">
-    <div class="buttonGroup">
-      <button class="start" onclick="confirmPlayerName()">CONFIRM</button>
-      <button class="start" onclick="skipNameInput()">SKIP</button>
-    </div>
-  </div>
-</div>
+      <div class="portraitBox">
+        <canvas id="characterDisplayCanvas" width="300" height="140"></canvas>
+        <div id="characterDisplay"></div>
+      </div>
 
-<div id="computer">
-  <div class="monitor">
-    <div class="bar">🔓 SECURE TERMINAL | SCIENTIST_07 | CLASSIFIED DATABASE</div>
-    <div class="screen">
-      <div>&gt; CONNECTION ESTABLISHED</div>
-      <div>&gt; ACCESSING: GOVERNMENT RESEARCH ARCHIVE</div>
-      <div>&gt; STATUS: 50 FILES FOUND</div>
-      <div>&gt; OBJECTIVE: REVIEW THE FIVE FLAGGED EXPERIMENT FILES</div>
-      <div class="files" id="files"></div>
-      <div id="fileInfo">Select an experiment file to review.</div>
-    </div>
-  </div>
-</div>
+      <div class="dialogueBox">
+        <div id="name"></div>
+        <div id="text"></div>
+        <div id="continue">▼ CLICK TO CONTINUE</div>
+      </div>
 
-<div id="phone">
-  <div class="phoneBox">
-    <div class="ring">☎</div>
-    <div style="color:#ff79b8;font-size:18px;margin:15px;font-weight:bold">INCOMING CALL</div>
-    <div style="color:#e5c4d4">DIRECTORATE // SECURE LINE</div>
-    <button class="start" onclick="answerPhone()" style="margin-top:20px">ANSWER</button>
-  </div>
-</div>
+      <div id="choices"></div>
+    </div>
+  </div></div>
 
-<div id="email">
-  <div class="mail">
-    <h2>✉ NEW CLASSIFIED ASSIGNMENT</h2>
-    <p><b>FROM:</b> DIRECTORATE<br><b>SUBJECT:</b> PROJECT REANIMATION — IMMEDIATE DEPLOYMENT</p>
-    <p>Your credentials have been reviewed. You have been selected for a project of the highest confidentiality. This assignment requires your discretion and your expertise. Nothing else matters.</p>
-    <p><b>SCOPE:</b> Human consciousness reanimation via cadaver experimentation.</p>
-    <p class="warning">⚠ PROJECT CLASSIFICATION: LEVEL 9 (BLACK)<br>⚠ ALL SUBJECTS: LEGALLY CLASSIFIED AS DISPOSABLE<br>⚠ ETHICAL OVERSIGHT: SUSPENDED</p>
-    <p>Proceed to Laboratory 07 immediately. Complete silence is required. Speak of this to no one.</p>
-    <button class="start" onclick="enterLab()" style="margin-top:20px">ACCEPT ASSIGNMENT</button>
-  </div>
-</div>
-
-<div id="saveMenu">
-  <button class="saveClose" onclick="closeSaveMenu()">✕</button>
-  <div class="savePanel">
-    <h2>SAVE / LOAD GAME</h2>
-    <div id="saveSlots"></div>
-    <button class="start" style="width:100%;margin-top:15px" onclick="closeSaveMenu()">CLOSE MENU</button>
-  </div>
-</div>
-
-<div id="settingsPanel">
-  <button class="settingsClose" onclick="closeSettings()">✕</button>
-  <div class="settingsCard">
-    <div class="settingsTitle">⚙ SCIENCE SETTINGS</div>
-    
-    <div class="settingRow">
-      <span class="settingLabel">14-Day Relationship Mode</span>
-      <button class="miniToggle active" id="dayModeToggle" onclick="toggleDayMode()">ON</button>
-    </div>
-    
-    <div class="settingRow">
-      <span class="settingLabel">Days Remaining</span>
-      <span class="settingValue" id="dayCounterDisplay">14</span>
-    </div>
-    
-    <div class="settingRow">
-      <span class="settingLabel">Screen Shake</span>
-      <button class="miniToggle active" id="shakeToggle" onclick="toggleShakeMode()">ON</button>
-    </div>
-    
-    <div class="settingRow">
-      <span class="settingLabel">Sound Effects</span>
-      <button class="miniToggle active" id="soundToggleSettings" onclick="toggleSound()">ON</button>
-    </div>
-    
-    <div class="settingRow">
-      <span class="settingLabel">Scientist Name</span>
-      <span class="settingValue" id="nameDisplay">Dr. Voss</span>
-    </div>
-    
-    <div class="settingRow">
-      <span class="settingLabel">Obsession Level</span>
-      <span class="settingValue" id="obsessionDisplay">0%</span>
+  <!-- OVERLAYS -->
+  <div id="title">
+    <div class="introCard">
+      <div class="logo">Exp3er1mentz H3art</div>
+      <div class="subtitle">A CLASSIFIED EXPERIMENT</div>
+      <div class="storyPreview">
+        <b>You are a scientist.</b> For years, you've conducted safe, ethical experiments. Boring experiments. Then one day, the Directorate offers you something different. Something <b>interesting.</b>
+        <b>Human reanimation.</b> Bringing the dead back to life. Corpse after corpse, failure after failure—until one day, a body arrives that changes everything. Beautiful. Perfect. And when they open their eyes and look at you, you realize you've made a terrible mistake.
+        <b>But you're not the only one watching.</b>
+      </div>
+      <button class="start" onclick="startGame()">BEGIN EXPERIMENT</button>
+      <div class="agency">⚠ CLASSIFIED MATERIAL — UNAUTHORIZED ACCESS IS PROHIBITED ⚠</div>
     </div>
   </div>
-</div>
 
-<div id="gameOverOverlay">
-  <div class="gameOverBox">
-    <h1>GAME OVER</h1>
-    <p id="gameOverText"></p>
-    <button class="start" onclick="location.reload()">RESTART</button>
-  </div>
-</div>
-
-<div id="ui">
-  <div id="top">
-    <div class="topLeft">
-      <span>LABORATORY 07 // CLASSIFIED EXPERIMENT</span>
-      <span id="dayCounter" style="display:none">📊 <span id="dayRemaining">14</span> DAYS</span>
-    </div>
-    <div class="topRight">
-      <span id="status"></span>
-      <button id="settingsToggle" onclick="openSettings()">⚙ SETTINGS</button>
-      <button id="soundToggle" onclick="toggleSound()">🔊 ON</button>
-      <button id="saveToggle" onclick="openSaveMenu()">💾 SAVE</button>
+  <div id="nameInputModal">
+    <div class="nameModal">
+      <h2>SCIENTIST IDENTIFICATION</h2>
+      <p>Enter your designation for the classified database</p>
+      <input id="nameInputField" type="text" maxlength="24" placeholder="e.g., Dr. Voss" autocomplete="off">
+      <div class="buttonGroup">
+        <button class="start" onclick="confirmPlayerName()">CONFIRM</button>
+        <button class="start" onclick="skipNameInput()">SKIP</button>
+      </div>
     </div>
   </div>
-  <canvas id="characterDisplayCanvas" width="110" height="140"></canvas>
-  <div id="characterDisplay"></div>
-  <div id="dialogue">
-    <div id="name"></div><div id="text"></div><div id="continue">▼ CLICK TO CONTINUE</div>
-  </div>
-  <div id="choices"></div>
-</div>
 
-<div id="ending">
-  <h1 id="endingTitle"></h1>
-  <p id="endingText"></p>
-  <div class="buttons">
-    <button class="start" onclick="location.reload()">RESTART GAME</button>
-    <button class="start" onclick="openSaveMenu()">LOAD SAVE</button>
+  <div id="computer">
+    <div class="monitor">
+      <div class="bar">🔓 SECURE TERMINAL | SCIENTIST_07 | CLASSIFIED DATABASE</div>
+      <div class="screen">
+        <div>&gt; CONNECTION ESTABLISHED</div>
+        <div>&gt; ACCESSING: GOVERNMENT RESEARCH ARCHIVE</div>
+        <div>&gt; STATUS: 50 FILES FOUND</div>
+        <div>&gt; OBJECTIVE: REVIEW THE FIVE FLAGGED EXPERIMENT FILES</div>
+        <div class="files" id="files"></div>
+        <div id="fileInfo">Select an experiment file to review.</div>
+      </div>
+    </div>
   </div>
-</div>
-</div></div>
 
-<script src="characters.js"></script>
-<script src="game.js"></script>
+  <div id="phone">
+    <div class="phoneBox">
+      <div class="ring">☎</div>
+      <div style="color:#ff79b8;font-size:18px;margin:15px;font-weight:bold">INCOMING CALL</div>
+      <div style="color:#e5c4d4">DIRECTORATE // SECURE LINE</div>
+      <button class="start" onclick="answerPhone()" style="margin-top:20px">ANSWER</button>
+    </div>
+  </div>
+
+  <div id="email">
+    <div class="mail">
+      <h2>✉ NEW CLASSIFIED ASSIGNMENT</h2>
+      <p><b>FROM:</b> DIRECTORATE<br><b>SUBJECT:</b> PROJECT REANIMATION — IMMEDIATE DEPLOYMENT</p>
+      <p>Your credentials have been reviewed. You have been selected for a project of the highest confidentiality. This assignment requires your discretion and your expertise. Nothing else matters.</p>
+      <p><b>SCOPE:</b> Human consciousness reanimation via cadaver experimentation.</p>
+      <p class="warning">⚠ PROJECT CLASSIFICATION: LEVEL 9 (BLACK)<br>⚠ ALL SUBJECTS: LEGALLY CLASSIFIED AS DISPOSABLE<br>⚠ ETHICAL OVERSIGHT: SUSPENDED</p>
+      <p>Proceed to Laboratory 07 immediately. Complete silence is required. Speak of this to no one.</p>
+      <button class="start" onclick="enterLab()" style="margin-top:20px">ACCEPT ASSIGNMENT</button>
+    </div>
+  </div>
+
+  <div id="saveMenu">
+    <button class="saveClose" onclick="closeSaveMenu()">✕</button>
+    <div class="savePanel">
+      <h2>SAVE / LOAD GAME</h2>
+      <div id="saveSlots"></div>
+      <button class="start" style="width:100%;margin-top:15px" onclick="closeSaveMenu()">CLOSE MENU</button>
+    </div>
+  </div>
+
+  <div id="settingsPanel">
+    <button class="settingsClose" onclick="closeSettings()">✕</button>
+    <div class="settingsCard">
+      <div class="settingsTitle">⚙ SCIENCE SETTINGS</div>
+      
+      <div class="settingRow">
+        <span class="settingLabel">Screen Shake</span>
+        <button class="miniToggle active" id="shakeToggle" onclick="toggleShakeMode()">ON</button>
+      </div>
+      
+      <div class="settingRow">
+        <span class="settingLabel">Sound Effects</span>
+        <button class="miniToggle active" id="soundToggleSettings" onclick="toggleSound()">ON</button>
+      </div>
+      
+      <div class="settingRow">
+        <span class="settingLabel">Scientist Name</span>
+        <span class="settingValue" id="nameDisplay">Dr. Voss</span>
+      </div>
+      
+      <div class="settingRow">
+        <span class="settingLabel">Obsession Level</span>
+        <span class="settingValue" id="obsessionDisplay">0%</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="gameOverOverlay">
+    <div class="gameOverBox">
+      <h1>GAME OVER</h1>
+      <p id="gameOverText"></p>
+      <button class="start" onclick="location.reload()">RESTART</button>
+    </div>
+  </div>
+
+  <div id="ending">
+    <h1 id="endingTitle"></h1>
+    <p id="endingText"></p>
+    <div class="buttons">
+      <button class="start" onclick="location.reload()">RESTART GAME</button>
+      <button class="start" onclick="openSaveMenu()">LOAD SAVE</button>
+    </div>
+  </div>
+
+  <script src="characters.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>
